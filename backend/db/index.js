@@ -12,7 +12,8 @@ host: 'localhost',
 port: 5432,
 user: 'postgres',
 password: '',
-database: 'innercircle'
+database: 'innercircle', 
+ssl: false
 })
 
 export const query = (text, params) => {

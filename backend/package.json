@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "argon2": "^0.44.0",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "pg": "^8.16.3"
