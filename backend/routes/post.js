@@ -8,10 +8,10 @@ router.get('/', async (req, res, next) => {
     const result = await db.query('SELECT * FROM post ORDER BY post_date DESC')
     res.send(result.rows)
   } catch (err) {
-    console.error('Error fetching posts', err)
+    console.error('Error fetching all posts', err)
     res.status(500).json({
-      error: 'Failed to fetch posts',
-      message: error.message
+      error: 'Failed to fetch all posts',
+      message: err.message
     })
   }
 })
@@ -21,10 +21,10 @@ router.get('/:post_id', async (req, res, next) => {
     const result = await db.query('SELECT * FROM post WHERE post_id = $1', [req.params.post_id])
     res.send(result.rows[0])
   } catch (err) {
-    console.error('Error fetching post', err)
+    console.error('Error fetching the post', err)
     res.status(500).json({
       error: 'Failed to fetch the post',
-      message: error.message
+      message: err.message
     })
   }
 })
@@ -37,7 +37,7 @@ router.get('/recent-posts/:circle_id', async (req, res, next) => {
     console.error('Error fetching posts', err)
     res.status(500).json({
       error: 'Failed to fetch recent posts',
-      message: error.message
+      message: err.message
     })
   }
 })
@@ -47,10 +47,10 @@ router.get('/all/:circle_id', async (req, res, next) => {
     const result = await db.query('SELECT * FROM post WHERE post_author = $1', [req.params.circle_id])
     res.send(result.rows)
   } catch (err) {
-    console.error('Error fetching posts', err)
+    console.error('Error fetching circle posts', err)
     res.status(500).json({
       error: 'Failed to fetch circle posts',
-      message: error.message
+      message: err.message
     })
   }
 })
