@@ -2,3 +2,4 @@ node_modules
 .env
 postgres.md
 azure.md 
+test.rest
