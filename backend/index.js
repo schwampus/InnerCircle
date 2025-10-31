@@ -1,11 +1,11 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import { Client } from 'pg'
-import categoryRoutes from './routes/category';
-import circleRoutes from './routes/circle';
-import postRoutes from './routes/post';
-import userCircleRoutes from './routes/userCircle';
-import userRoutes from './routes/users';
+import categoryRoutes from './routes/category.js';
+import circleRoutes from './routes/circle.js';
+import postRoutes from './routes/post.js';
+import userCircleRoutes from './routes/userCircle.js';
+import userRoutes from './routes/users.js';
 
 dotenv.config();
 
