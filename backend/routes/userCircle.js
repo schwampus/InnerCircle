@@ -4,13 +4,64 @@ import * as db from '../db/index.js';
 const router = express.Router();
 
 router.get('/:users_id', async (req, res, next) => {
+  const query = `
+  SELECT 
+  uc.uc_id, 
+  uc.uc_circle_tier, 
+  c.circle_name, 
+  c.circle_avatar 
+  FROM userCircle uc 
+  LEFT JOIN circle c 
+  ON uc.uc_circle_id = c.circle_id 
+  WHERE uc.uc_user_id = $1
+  `
   try {
-    const result = await db.query('SELECT uc.uc_id, uc.uc_circle_tier, c.circle_name, c.circle_avatar FROM userCircle uc LEFT JOIN circle c ON uc.uc_circle_id = c.circle_id WHERE uc.uc_user_id = $1', [req.params.users_id])
+    const result = await db.query(query, [req.params.users_id])
     res.send(result.rows)
   } catch (err) {
     console.log('Error fetching user circles', err)
     res.status(500).json({
       error: 'Failed to fetch user circles',
+      message: err.message
+    })
+  }
+})
+
+router.get('/feed/:users_id', async (req, res, next) => {
+  const query = `
+    SELECT
+      p.post_id,
+      p.post_title,
+      p.post_text,
+      p.post_content,
+      p.post_date,
+      p.post_tier,
+      c.circle_name,
+      c.circle_avatar,
+      uc.uc_circle_tier
+    FROM userCircle uc
+    INNER JOIN circle c
+      ON uc.uc_circle_id = c.circle_id
+    INNER JOIN post p
+      ON p.post_author = c.circle_id
+    WHERE uc.uc_user_id = $1
+      AND (
+        CASE uc.uc_circle_tier
+          WHEN 'Gold' THEN p.post_tier IN ('Gold', 'Silver', 'Bronze')
+          WHEN 'Silver' THEN p.post_tier IN ('Silver', 'Bronze')
+          WHEN 'Bronze' THEN p.post_tier = 'Bronze'
+        END
+      )
+    ORDER BY p.post_date DESC;
+  `;
+
+  try {
+    const result = await db.query(query, [req.params.users_id])
+    res.send(result.rows)
+  } catch (err) {
+    console.log('Error fetching feed posts', err)
+    res.status(500).json({
+      error: 'Failed to fetch feed posts',
       message: err.message
     })
   }
