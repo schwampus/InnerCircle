@@ -17,7 +17,43 @@ router.get('/:users_id', async (req, res, next) => {
 })
 
 router.post('/', async (req, res) => {
+  const { userId, circleId, circleTier, paymentMethod } = req.body;
 
+  if (!circleTier || !paymentMethod) {
+    return res.status(400).json({ error: 'Please select the tier and/or payment method' });
+  }
+
+  if (!userId) {
+    return res.status(400).json({ error: 'You should be logged in to step inside the circle' })
+  }
+
+  if (!circleId) {
+    return res.status(400).json({ error: 'Select the circle to join' })
+  }
+
+  try {
+    const result = await db.query(
+      'INSERT INTO userCircle (uc_user_id, uc_circle_id, uc_circle_tier, uc_circle_payment_method) VALUES($1, $2, $3, $4) RETURNING uc_id',
+      [userId, circleId, circleTier, paymentMethod]
+    );
+
+    res.status(201).json({
+      message: 'new userCircle created successfully',
+      userCircle: result.rows[0]
+    })
+  } catch (err) {
+    console.error('Error creating userCircle: ', err);
+    res.status(500).json({ error: 'Failed to create a userCircle' });
+  }
+})
+
+router.delete('/:uc_id', async (req, res) => {
+  try {
+    const result = await db.query('DELETE FROM userCircle WHERE uc_id = $1', [req.params.uc_id])
+    res.status(200).json({ message: 'UserCircle deleted!' });
+  } catch (err) {
+    console.error('Error deleting the userCircle: ', err)
+  }
 })
 
 export default router;
