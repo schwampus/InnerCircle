@@ -1,19 +1,17 @@
 import { useEffect, useRef, useState } from "react";
 import {
-  faCheck,
-  faTimes,
-  faInfoCircle,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesome } from "@fortawesome/react-fontawesome";
-import Button from "@mui/joy/Button";
-import Input from "@mui/joy/Input";
-import Stack from "@mui/joy/Stack";
-import FormControl from "@mui/joy/FormControl";
-import FormLabel from "@mui/joy/FormLabel";
-import FormHelperText from "@mui/joy/FormHelperText";
+  Button,
+  FormControl,
+  FormLabel,
+  FormHelperText,
+  IconButton,
+  Input,
+  Stack,
+} from "@mui/joy";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
-const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
-const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%()&]).{8,24}$/;
 
 const Signup = () => {
   const userRef = useRef();
@@ -31,15 +29,16 @@ const Signup = () => {
   const [validMatch, setValidMatch] = useState(false);
   const [matchFocus, setMatchFocus] = useState(false);
 
+  const [showPassword, setShowPassword] = useState(true);
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false);
 
-  useEffect(() => {
-    userRef.current.focus();
-  }, []);
+  // useEffect(() => {
+  //   userRef.current.focus();
+  // }, []);
 
   useEffect(() => {
-    const result = USER_REGEX.test(user);
+    const result = EMAIL_REGEX.test(user);
     console.log(result);
     console.log(user);
     setValidName(result);
@@ -69,20 +68,72 @@ const Signup = () => {
         }}
       >
         <Stack spacing={1}>
-          <FormControl>
-            <FormLabel>Label</FormLabel>
-            <Input placeholder="Placeholder" required />
-            <FormHelperText>This is a helper text.</FormHelperText>
+          <FormControl error={!validName && user && !userFocus}>
+            <FormLabel>Email</FormLabel>
+            <Input
+              onChange={(e) => setUser(e.target.value)}
+              onFocus={() => setUserFocus(true)}
+              onBlur={() => setUserFocus(false)}
+              placeholder="Email"
+              required
+            />
+            <FormHelperText
+              sx={{ color: validName ? "success.main" : "danger.main" }}
+            >
+              {validName ? "✓" : "Please enter a valid email"}
+            </FormHelperText>
           </FormControl>
-          <FormControl>
-            <FormLabel>Label</FormLabel>
-            <Input placeholder="Placeholder" required />
-            <FormHelperText>This is a helper text.</FormHelperText>
+          <FormControl error={!validPwd && pwd && !pwdFocus}>
+            <FormLabel>Password</FormLabel>
+            <Input
+              onChange={(e) => setPwd(e.target.value)}
+              onBlur={() => {
+                setPwdFocus(false);
+                setShowPassword(false);
+              }}
+              onFocus={() => {
+                setPwdFocus(true);
+                setShowPassword(true);
+              }}
+              placeholder="Password"
+              type={showPassword ? "text" : "password"} // Dynamic type
+              required
+              // endAdornment={
+              //   <IconButton
+              //     aria-label="toggle password visibility"
+              //     onClick={() => setShowPassword((prev) => !prev)}
+              //     edge="end"
+              //   >
+              /* {showPassword ? <VisibilityOff /> : <Visibility />} */
+              //   </IconButton>
+              // }
+            />
+            <FormHelperText
+              sx={{ color: validPwd ? "success.main" : "danger.main" }}
+            >
+              {validPwd
+                ? "✓"
+                : "8-24 characters with uppercase, lowercase, number, and special character (!@#$%()&)"}
+            </FormHelperText>
           </FormControl>
-          <FormControl>
-            <FormLabel>Label</FormLabel>
-            <Input placeholder="Placeholder" disabled />
-            <FormHelperText>This is a helper text.</FormHelperText>
+          <FormControl error={!validMatch && matchPwd}>
+            <FormLabel>Repeat password</FormLabel>
+            <Input
+              onChange={(e) => setMatchPwd(e.target.value)}
+              onBlur={() => setMatchFocus(false)}
+              onFocus={() => setMatchFocus(true)}
+              placeholder="Repeat the password"
+              type="password"
+              disabled={!pwd}
+              autoComplete="disabled"
+            />
+            <FormHelperText
+              sx={{ color: validMatch ? "success.main" : "danger.main" }}
+            >
+              {validMatch
+                ? "✓ Passwords match"
+                : "Passwords do not match, try again"}
+            </FormHelperText>
           </FormControl>
           <Button type="submit">Submit</Button>
         </Stack>
