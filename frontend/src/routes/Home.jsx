@@ -29,7 +29,7 @@ const Home = () => {
             fontFamily: '"Climate Crisis", sans-serif',
             fontSize: "3rem", // h1 size
             fontWeight: 600,
-            letterSpacing: "0.05em",
+            letterSpacing: "2px",
           }}
         >
           INNER CIRCLE
