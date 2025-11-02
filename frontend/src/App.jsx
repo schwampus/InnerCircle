@@ -1,22 +1,24 @@
-import { Routes, Route } from 'react-router-dom'; 
-import Home from './routes/home';
-import Login from './routes/Login';
-import Register from './routes/Register';
+import { Routes, Route } from "react-router-dom";
+import Home from "./routes/Home";
+// import Login from "./routes/Login";
+// import Register from "./routes/Register";
+import { CssVarsProvider } from "@mui/joy/styles";
+import { theme } from "./theme.js";
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="*" element={<div>404 Not Found</div>} />
-    </Routes>
-  )
+    <CssVarsProvider theme={theme} defaultMode="dark">
+      <Routes>
+        <Route path="/" element={<Home />} />
+        {/* <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} /> */}
+        <Route path="*" element={<div>404 Not Found</div>} />
+      </Routes>
+    </CssVarsProvider>
+  );
 }
 
-export default App
-
-
+export default App;
 
 /* 
    <Container sx={{padding:"10px",  bgcolor: 'secondary.200', maxWidth: '50dvw',

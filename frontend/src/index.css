@@ -1,11 +1,14 @@
 html {
 	background-color: #ffebc2;
 }
+
 body {
 	font-family: "Kanit", sans-serif;
+	margin: 0;
+	padding: 0;
 }
 
-.brand-typeface {
+/* .brand-typeface {
 	font-family: "Climate Crisis Variable", sans-serif;
 	color: "#E58E17";
-}
+} */
