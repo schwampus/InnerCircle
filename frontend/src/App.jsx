@@ -1,35 +1,46 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Routes, Route } from 'react-router-dom'; 
+import Home from './routes/home';
+import Login from './routes/Login';
+import Register from './routes/Register';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Support your idols and get rewarded with exclusive content</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="*" element={<div>404 Not Found</div>} />
+    </Routes>
   )
 }
 
 export default App
+
+
+
+/* 
+   <Container sx={{padding:"10px",  bgcolor: 'secondary.200', maxWidth: '50dvw',
+    width: '100%', }}>
+      <Sheet variant="solid" color="primary"
+        sx={{
+          p: 4,
+          borderRadius: 'lg',
+          backgroundColor: 'primary.300',  
+          color: 'primary.main',             
+          mb: 3,
+        }}
+      >hello
+        <Typography level="brand" sx={{ color: 'secondary.main' }}> 
+          INNER CIRCLE
+        </Typography>
+      </Sheet>
+
+      <Typography level="h2"
+        sx={{
+          color: 'secondary.main', 
+          
+        }}
+      >
+        tiers
+      </Typography>
+    </Container> */
