@@ -1,11 +1,55 @@
-html {
-	background-color: #ffebc2;
-}
-body {
-	font-family: "Kanit", sans-serif;
+@import url("https://fonts.googleapis.com/css2?family=Climate+Crisis&family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import "tailwindcss";
+
+:root {
+	color-scheme: light dark;
+	color: var(--brand-light);
+	background-color: --var(--orange-darker);
 }
 
-.brand-typeface {
-	font-family: "Climate Crisis Variable", sans-serif;
-	color: "#E58E17";
+@theme {
+	--font-kanit: "Kanit", sans-serif;
+	--font-climate: "Climate Crisis", serif;
+
+	--purple-white: #dad7ea;
+	--purple-lighter: #776db0;
+	--purple-light: #504785;
+	--purple-main: #322d54;
+	--purple-dark: #201c36;
+	--purple-darker: #100e1b;
+
+	--orange-white: #ffebc2;
+	--orange-lighter: #ffc663;
+	--orange-light: #f5b23e;
+	--orange-main: #eb9e1a;
+	--orange-dark: #e58e17;
+	--orange-darker: #e07e15;
+
+	--neutral-light: #f5f5f5;
+	--neutral-main: #d9d9d9;
+	--neutral-dark: #bfbfbf;
+}
+
+#wrapper {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	min-height: 100vh; /* min-h-screen */
+	width: 100dvw;
+	background-color: var(--orange-white);
+}
+
+#herocontent {
+	display: flex;
+	width: 100dvw;
+	min-height: 60dvh;
+
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	padding: 10px;
+
+	background-color: var(--orange-white);
 }
