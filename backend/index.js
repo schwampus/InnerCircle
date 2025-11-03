@@ -18,12 +18,12 @@ app.get('/', (req, res) => {
   res.json({ message: 'Inner Circle API is running!' });
 });
 
-app.use(authRoutes);
-app.use('/categories', categoryRoutes);
-app.use('/circles', circleRoutes)
-app.use('/posts', postRoutes);
-app.use('/user-circles', userCircleRoutes);
-app.use('/users', userRoutes);
+app.use('/api', authRoutes);
+app.use('/api/categories', categoryRoutes);
+app.use('/api/circles', circleRoutes)
+app.use('/api/posts', postRoutes);
+app.use('/api/user-circles', userCircleRoutes);
+app.use('/api/users', userRoutes);
 
 app.listen(port, () => {
   console.log(`Redo på den externa servern på: ${port}`)

@@ -1,25 +1,24 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Button,
   FormControl,
   FormLabel,
   FormHelperText,
-  IconButton,
   Input,
   Stack,
 } from "@mui/joy";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%()&]).{8,24}$/;
 
 const Signup = () => {
-  const userRef = useRef();
-  const errRef = useRef();
-
-  const [user, setUser] = useState("");
+  const [userName, setUserName] = useState("");
   const [validName, setValidName] = useState(false);
   const [userFocus, setUserFocus] = useState(false);
+
+  const [email, setEmail] = useState("");
+  const [validEmail, setValidEmail] = useState(false);
+  const [emailFocus, setEmailFocus] = useState(false);
 
   const [pwd, setPwd] = useState("");
   const [validPwd, setValidPwd] = useState(false);
@@ -30,32 +29,65 @@ const Signup = () => {
   const [matchFocus, setMatchFocus] = useState(false);
 
   const [showPassword, setShowPassword] = useState(true);
-  const [errMsg, setErrMsg] = useState("");
-  const [success, setSuccess] = useState(false);
-
-  // useEffect(() => {
-  //   userRef.current.focus();
-  // }, []);
 
   useEffect(() => {
-    const result = EMAIL_REGEX.test(user);
-    console.log(result);
-    console.log(user);
+    const result = userName.length >= 3;
     setValidName(result);
-  }, [user]);
+  }, [userName]);
+
+  useEffect(() => {
+    const result = EMAIL_REGEX.test(email);
+    setValidEmail(result);
+  }, [email]);
 
   useEffect(() => {
     const result = PWD_REGEX.test(pwd);
-    console.log(result);
-    console.log(pwd);
     setValidPwd(result);
     const match = pwd === matchPwd;
     setValidMatch(match);
   }, [pwd, matchPwd]);
 
-  useEffect(() => {
-    setErrMsg("");
-  }, [user, pwd, matchPwd]);
+  async function signUp(formData) {
+    try {
+      const response = await fetch("/api/signup/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+      console.log("Success:", result);
+
+      if (result.user) {
+        localStorage.setItem("userId", result.user.users_id);
+        console.log(result.user.users_id);
+      }
+
+      resetForm();
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
+
+  function resetForm() {
+    setUserName("");
+    setEmail("");
+    setPwd("");
+    setMatchPwd("");
+    setShowPassword(false);
+
+    setValidName(false);
+    setValidEmail(false);
+    setValidPwd(false);
+    setValidMatch(false);
+
+    setUserFocus(false);
+    setEmailFocus(false);
+    setPwdFocus(false);
+    setMatchFocus(false);
+  }
 
   return (
     <section>
@@ -64,28 +96,48 @@ const Signup = () => {
           event.preventDefault();
           const formData = new FormData(event.currentTarget);
           const formJson = Object.fromEntries(formData.entries());
-          alert(JSON.stringify(formJson));
+          signUp(formJson);
         }}
       >
         <Stack spacing={1}>
-          <FormControl error={!validName && user && !userFocus}>
-            <FormLabel>Email</FormLabel>
+          <FormControl error={!validEmail && userName && !userFocus}>
+            <FormLabel>Name</FormLabel>
             <Input
-              onChange={(e) => setUser(e.target.value)}
+              name="userName"
+              onChange={(e) => setUserName(e.target.value)}
               onFocus={() => setUserFocus(true)}
               onBlur={() => setUserFocus(false)}
-              placeholder="Email"
+              placeholder="Name"
               required
+              autoComplete="disabled"
             />
             <FormHelperText
               sx={{ color: validName ? "success.main" : "danger.main" }}
             >
-              {validName ? "✓" : "Please enter a valid email"}
+              {validName ? "✓" : "Please enter your name"}
+            </FormHelperText>
+          </FormControl>
+          <FormControl error={!validEmail && email && !emailFocus}>
+            <FormLabel>Email</FormLabel>
+            <Input
+              name="email"
+              onChange={(e) => setEmail(e.target.value)}
+              onFocus={() => setEmailFocus(true)}
+              onBlur={() => setEmailFocus(false)}
+              placeholder="Email"
+              required
+              autoComplete="disabled"
+            />
+            <FormHelperText
+              sx={{ color: validEmail ? "success.main" : "danger.main" }}
+            >
+              {validEmail ? "✓" : "Please enter a valid email"}
             </FormHelperText>
           </FormControl>
           <FormControl error={!validPwd && pwd && !pwdFocus}>
             <FormLabel>Password</FormLabel>
             <Input
+              name="password"
               onChange={(e) => setPwd(e.target.value)}
               onBlur={() => {
                 setPwdFocus(false);
@@ -96,17 +148,8 @@ const Signup = () => {
                 setShowPassword(true);
               }}
               placeholder="Password"
-              type={showPassword ? "text" : "password"} // Dynamic type
+              type={showPassword ? "text" : "password"}
               required
-              // endAdornment={
-              //   <IconButton
-              //     aria-label="toggle password visibility"
-              //     onClick={() => setShowPassword((prev) => !prev)}
-              //     edge="end"
-              //   >
-              /* {showPassword ? <VisibilityOff /> : <Visibility />} */
-              //   </IconButton>
-              // }
             />
             <FormHelperText
               sx={{ color: validPwd ? "success.main" : "danger.main" }}
@@ -135,7 +178,12 @@ const Signup = () => {
                 : "Passwords do not match, try again"}
             </FormHelperText>
           </FormControl>
-          <Button type="submit">Submit</Button>
+          <Button
+            type="submit"
+            disabled={!validMatch || !userName || !email || !pwd}
+          >
+            Submit
+          </Button>
         </Stack>
       </form>
     </section>
