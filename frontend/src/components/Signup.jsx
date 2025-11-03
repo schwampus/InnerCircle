@@ -98,8 +98,9 @@ const Signup = () => {
   }
 
   return (
-    <section>
+    <section className="bg-(--purple-dark) w-full text-(--orange-main) px-8 py-10">
       <form
+        className="bg-(--purple-dark) w-full text-(--orange-main) px-8 py-10"
         onSubmit={(event) => {
           event.preventDefault();
           const formData = new FormData(event.currentTarget);

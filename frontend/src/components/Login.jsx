@@ -43,8 +43,8 @@ const Login = () => {
   }
 
   return (
-    <section>
-      <form
+    <section className="bg-(--purple-dark) w-full text-(--orange-main) px-8 py-10">
+      <form className="bg-(--purple-dark) w-full text-(--orange-main) px-8 py-10"
         onSubmit={(event) => {
           event.preventDefault();
           const formData = new FormData(event.currentTarget);
@@ -83,8 +83,8 @@ const Login = () => {
               required
             />
           </FormControl>
-          <Button type="submit" disabled={!email || !pwd}>
-            Submit
+          <Button type="submit" color="warning" variant="solid" disabled={!email || !pwd}>
+            Log in
           </Button>
         </Stack>
       </form>
