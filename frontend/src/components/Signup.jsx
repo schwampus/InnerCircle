@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Button,
   FormControl,
@@ -30,6 +31,8 @@ const Signup = () => {
 
   const [showPassword, setShowPassword] = useState(true);
 
+  // const navigate = useNavigate();
+
   useEffect(() => {
     const result = userName.length >= 3;
     setValidName(result);
@@ -57,10 +60,15 @@ const Signup = () => {
         body: JSON.stringify(formData),
       });
 
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
       const result = await response.json();
       console.log("Success:", result);
 
       if (result.user) {
+        // navigate("/login"); TODO: uncomment when I have routes!
         localStorage.setItem("userId", result.user.users_id);
         console.log(result.user.users_id);
       }
@@ -100,7 +108,7 @@ const Signup = () => {
         }}
       >
         <Stack spacing={1}>
-          <FormControl error={!validEmail && userName && !userFocus}>
+          <FormControl error={!validName && userName && !userFocus}>
             <FormLabel>Name</FormLabel>
             <Input
               name="userName"
@@ -180,12 +188,13 @@ const Signup = () => {
           </FormControl>
           <Button
             type="submit"
-            disabled={!validMatch || !userName || !email || !pwd}
+            disabled={!validMatch || !validName || !validEmail || !validPwd}
           >
             Submit
           </Button>
         </Stack>
       </form>
+      <p>Already have an account? Log in</p>
     </section>
   );
 };

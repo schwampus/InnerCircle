@@ -1,12 +1,10 @@
-import { useState } from "react";
-import Signup from "./components/Signup"
+import Signup from "./components/Signup";
+import Login from "./components/Login";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <>
       <div>
@@ -19,7 +17,7 @@ function App() {
       </div>
       <h1>Support your idols and get rewarded with exclusive content</h1>
       <div className="card">
-        <Signup />
+        <Login />
       </div>
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
