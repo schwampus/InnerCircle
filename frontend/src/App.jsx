@@ -3,8 +3,6 @@ import Header from './components/header.jsx';
 import Home from './routes/home_Route';
 import Login from "./components/Login";
 import Signup from "./components/Signup";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
 
 function App() {
