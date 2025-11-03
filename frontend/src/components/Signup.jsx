@@ -27,7 +27,7 @@ const Signup = () => {
 
   const [matchPwd, setMatchPwd] = useState("");
   const [validMatch, setValidMatch] = useState(false);
-  const [matchFocus, setMatchFocus] = useState(false);
+  const [_matchFocus, setMatchFocus] = useState(false);
 
   const [showPassword, setShowPassword] = useState(true);
 
@@ -190,7 +190,7 @@ const Signup = () => {
             type="submit"
             disabled={!validMatch || !validName || !validEmail || !validPwd}
           >
-            Submit
+            Sign up
           </Button>
         </Stack>
       </form>
