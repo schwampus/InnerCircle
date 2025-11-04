@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Button } from "@mui/joy";
-import AuthModal from "../components/AuthModal";
+import { Button, Drawer } from "@mui/joy";
+import Signup from "../components/Signup";
+import Login from "../components/Login";
 
 export default function Home() {
   const [loginOpen, setLoginOpen] = useState(false);
@@ -28,8 +29,18 @@ export default function Home() {
     setSignupOpen(inOpen);
   };
 
-  const closeLogin = () => setLoginOpen(false);
   const closeSignup = () => setSignupOpen(false);
+  const closeLogin = () => setLoginOpen(false);
+
+  const switchToSignup = () => {
+    setLoginOpen(false);
+    setSignupOpen(true);
+  };
+
+  const switchToLogin = () => {
+    setSignupOpen(false);
+    setLoginOpen(true);
+  };
 
   return (
     <>
@@ -68,20 +79,22 @@ export default function Home() {
           </Button>
         </div>
         <section>
-          <AuthModal
-            isOpen={loginOpen}
-            formtype="login"
+          <Drawer
+            anchor="bottom"
+            onClose={toggleLoginDrawer(false)}
+            open={loginOpen}
             size="md"
-            toggleDrawer={closeLogin}
-            toggleSignup={toggleSignupDrawer}
-          />
-          <AuthModal
-            isOpen={signUpOpen}
-            formtype="signup"
+          >
+            <Login toggleLogin={closeLogin} toggleSignup={switchToSignup} />
+          </Drawer>
+          <Drawer
+            anchor="bottom"
+            onClose={toggleSignupDrawer(false)}
+            open={signUpOpen}
             size="lg"
-            toggleDrawer={closeSignup}
-            toggleLogin={toggleLoginDrawer}
-          />
+          >
+            <Signup toggleClose={closeSignup} toggleLogin={switchToLogin} />
+          </Drawer>
         </section>
 
         <div className="bg-(--purple-dark) w-full h-64 text-(--orange-main) px-8 py-10">

@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { Button, FormControl, FormLabel, Input, Stack } from "@mui/joy";
+import { Box, Button, FormControl, FormLabel, Input, Stack } from "@mui/joy";
 
 const Login = (props) => {
   const [email, setEmail] = useState("");
   const [pwd, setPwd] = useState("");
-  const [pwdFocus, setPwdFocus] = useState(false);
+  const [_pwdFocus, setPwdFocus] = useState(false);
   const [showPassword, setShowPassword] = useState(true);
 
   async function login(formData) {
@@ -25,7 +25,7 @@ const Login = (props) => {
         localStorage.setItem("userId", result.user.users_id);
         console.log(result.user.users_id);
 
-        props.toggleOpen();
+        props.toggleClose();
       }
 
       resetForm();
@@ -42,10 +42,7 @@ const Login = (props) => {
   }
 
   const handleSwitchToSignup = () => {
-    props.toggleOpen(false);
-    setTimeout(() => {
-      props.toggleSignup(true)();
-    }, 100);
+    props.toggleSignup();
   };
 
   return (
@@ -60,7 +57,7 @@ const Login = (props) => {
           login(formJson);
         }}
       >
-        <Stack spacing={1}>
+        <Stack spacing={1.2}>
           <FormControl>
             <FormLabel>Email</FormLabel>
             <Input
@@ -91,22 +88,24 @@ const Login = (props) => {
               required
             />
           </FormControl>
+          <Box sx={{ height: 8 }} />
           <Button
             type="submit"
             color="secondary"
             variant="solid"
             disabled={!email || !pwd}
+            sx={{ py: 1.2 }}
           >
             Log in
           </Button>
+          <p
+            className="underline py-4 cursor-pointer"
+            onClick={handleSwitchToSignup}
+          >
+            Don't have an account? Sign up now
+          </p>
         </Stack>
       </form>
-      <p
-        className="underline pl-9 cursor-pointer"
-        onClick={handleSwitchToSignup}
-      >
-        Don't have an account? Sign up now
-      </p>
     </section>
   );
 };

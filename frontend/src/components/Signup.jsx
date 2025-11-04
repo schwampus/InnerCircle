@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import {
+  Box,
   Button,
   FormControl,
   FormLabel,
@@ -68,7 +69,7 @@ const Signup = (props) => {
         localStorage.setItem("userId", result.user.users_id);
         console.log(result.user.users_id);
 
-        props.toggleOpen();
+        props.toggleClose();
       }
 
       resetForm();
@@ -96,17 +97,14 @@ const Signup = (props) => {
   }
 
   const handleSwitchToLogin = () => {
-    props.toggleOpen(false);
-    setTimeout(() => {
-      props.toggleLogin(true)();
-    }, 100);
+    props.toggleLogin();
   };
 
   return (
-    <section className="bg-(--purple-dark) w-full text-(--orange-main) px-8 py-10">
+    <section className="bg-(--purple-dark) w-full text-(--orange-main) px-6 py-8">
       <h2 className="text-2xl text-center">Sign up</h2>
       <form
-        className="bg-(--purple-dark) w-full text-(--orange-main) px-8 py-10"
+        className="bg-(--purple-dark) text-(--orange-main) px-4 py-4"
         onSubmit={(event) => {
           event.preventDefault();
           const formData = new FormData(event.currentTarget);
@@ -124,13 +122,13 @@ const Signup = (props) => {
               onBlur={() => setUserFocus(false)}
               placeholder="Name"
               required
-              autoComplete="disabled"
+              autoComplete="off"
             />
-            <FormHelperText
-              sx={{ color: validName ? "success.main" : "danger.main" }}
-            >
-              {validName ? "✓" : "Please enter your name"}
-            </FormHelperText>
+            {userName && (
+              <FormHelperText>
+                {validName ? "✓" : "Please enter your name"}
+              </FormHelperText>
+            )}
           </FormControl>
           <FormControl error={!validEmail && email && !emailFocus}>
             <FormLabel>Email</FormLabel>
@@ -143,11 +141,11 @@ const Signup = (props) => {
               required
               autoComplete="disabled"
             />
-            <FormHelperText
-              sx={{ color: validEmail ? "success.main" : "danger.main" }}
-            >
-              {validEmail ? "✓" : "Please enter a valid email"}
-            </FormHelperText>
+            {email && (
+              <FormHelperText>
+                {validEmail ? "✓" : "Please enter a valid email"}
+              </FormHelperText>
+            )}
           </FormControl>
           <FormControl error={!validPwd && pwd && !pwdFocus}>
             <FormLabel>Password</FormLabel>
@@ -166,9 +164,7 @@ const Signup = (props) => {
               type={showPassword ? "text" : "password"}
               required
             />
-            <FormHelperText
-              sx={{ color: validPwd ? "success.main" : "danger.main" }}
-            >
+            <FormHelperText sx={{ fontSize: 12 }}>
               {validPwd
                 ? "✓"
                 : "8-24 characters with uppercase, lowercase, number, and special character (!@#$%()&)"}
@@ -185,28 +181,32 @@ const Signup = (props) => {
               disabled={!pwd}
               autoComplete="disabled"
             />
-            <FormHelperText
-              sx={{ color: validMatch ? "success.main" : "danger.main" }}
-            >
-              {validMatch
-                ? "✓ Passwords match"
-                : "Passwords do not match, try again"}
-            </FormHelperText>
+            {pwd && (
+              <FormHelperText>
+                {validMatch
+                  ? "✓ Passwords match"
+                  : "Passwords do not match, try again"}
+              </FormHelperText>
+            )}
           </FormControl>
+          <Box sx={{ height: 8 }} />
           <Button
             type="submit"
+            color="secondary"
+            variant="solid"
             disabled={!validMatch || !validName || !validEmail || !validPwd}
+            sx={{ py: 1.2 }}
           >
             Sign up
           </Button>
+          <p
+            className="underline py-4 cursor-pointer"
+            onClick={handleSwitchToLogin}
+          >
+            Already have an account? Log in
+          </p>
         </Stack>
       </form>
-      <p
-        className="underline pl-9 cursor-pointer"
-        onClick={handleSwitchToLogin}
-      >
-        Already have an account? Log in
-      </p>
     </section>
   );
 };
