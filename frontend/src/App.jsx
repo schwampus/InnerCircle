@@ -1,18 +1,17 @@
-import './App.css'
-import {  Routes, Route } from 'react-router-dom'
-import Home from './routes/home_Route'
-import LogIn from './routes/login_Route'     
-import SignUp from './routes/signup_Route'
+import {  Routes, Route } from 'react-router-dom';
 import Header from './components/header.jsx';
-
+import Home from './routes/home_Route';
+import Login from "./components/Login";
+import Signup from "./components/Signup";
+import "./App.css";
 
 function App() {
   return (<>
    <Header />
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/login" element={<LogIn />} />
-      <Route path="/signup" element={<SignUp />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<Signup/>} />
       <Route path="*" element={<div>404 Not Found</div>} />
     </Routes>
 
@@ -21,5 +20,4 @@ function App() {
   )
 }
 
-export default App
-
+export default App;
