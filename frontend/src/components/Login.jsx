@@ -1,12 +1,10 @@
-import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Button, FormControl, FormLabel, Input, Stack } from "@mui/joy";
+import { useState } from "react";
+import { Box, Button, FormControl, FormLabel, Input, Stack } from "@mui/joy";
 
-const Login = () => {
+const Login = (props) => {
   const [email, setEmail] = useState("");
-
   const [pwd, setPwd] = useState("");
-  const [pwdFocus, setPwdFocus] = useState(false);
+  const [_pwdFocus, setPwdFocus] = useState(false);
   const [showPassword, setShowPassword] = useState(true);
 
   async function login(formData) {
@@ -24,9 +22,10 @@ const Login = () => {
 
       if (result.user) {
         console.log("Success:", result);
-        // navigate();
         localStorage.setItem("userId", result.user.users_id);
         console.log(result.user.users_id);
+
+        props.toggleClose();
       }
 
       resetForm();
@@ -39,12 +38,16 @@ const Login = () => {
     setEmail("");
     setPwd("");
     setShowPassword(false);
-
     setPwdFocus(false);
   }
 
+  const handleSwitchToSignup = () => {
+    props.toggleSignup();
+  };
+
   return (
     <section className="bg-(--purple-dark) w-full text-(--orange-main) px-8 py-10">
+      <h2 className="text-2xl text-center">Log in</h2>
       <form
         className="bg-(--purple-dark) w-full text-(--orange-main) px-8 py-10"
         onSubmit={(event) => {
@@ -54,7 +57,7 @@ const Login = () => {
           login(formJson);
         }}
       >
-        <Stack spacing={1}>
+        <Stack spacing={1.2}>
           <FormControl>
             <FormLabel>Email</FormLabel>
             <Input
@@ -85,17 +88,24 @@ const Login = () => {
               required
             />
           </FormControl>
+          <Box sx={{ height: 8 }} />
           <Button
             type="submit"
-            color="warning"
+            color="secondary"
             variant="solid"
             disabled={!email || !pwd}
+            sx={{ py: 1.2 }}
           >
             Log in
           </Button>
+          <p
+            className="underline py-4 cursor-pointer"
+            onClick={handleSwitchToSignup}
+          >
+            Don't have an account? Sign up now
+          </p>
         </Stack>
       </form>
-      <p>Don't have an account? Sign up now</p>
     </section>
   );
 };

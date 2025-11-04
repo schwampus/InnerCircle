@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import {
+  Box,
   Button,
   FormControl,
   FormLabel,
@@ -12,7 +12,7 @@ import {
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%()&]).{8,24}$/;
 
-const Signup = () => {
+const Signup = (props) => {
   const [userName, setUserName] = useState("");
   const [validName, setValidName] = useState(false);
   const [userFocus, setUserFocus] = useState(false);
@@ -30,8 +30,6 @@ const Signup = () => {
   const [_matchFocus, setMatchFocus] = useState(false);
 
   const [showPassword, setShowPassword] = useState(true);
-
-  // const navigate = useNavigate();
 
   useEffect(() => {
     const result = userName.length >= 3;
@@ -68,9 +66,11 @@ const Signup = () => {
       console.log("Success:", result);
 
       if (result.user) {
-        // navigate("/login"); TODO: uncomment when I have routes!
         localStorage.setItem("userId", result.user.users_id);
         console.log(result.user.users_id);
+
+        props.toggleClose();
+        props.toggleLogin();
       }
 
       resetForm();
@@ -97,10 +97,15 @@ const Signup = () => {
     setMatchFocus(false);
   }
 
+  const handleSwitchToLogin = () => {
+    props.toggleLogin();
+  };
+
   return (
-    <section className="bg-(--purple-dark) w-full text-(--orange-main) px-8 py-10">
+    <section className="bg-(--purple-dark) w-full text-(--orange-main) px-6 py-8">
+      <h2 className="text-2xl text-center">Sign up</h2>
       <form
-        className="bg-(--purple-dark) w-full text-(--orange-main) px-8 py-10"
+        className="bg-(--purple-dark) text-(--orange-main) px-4 py-4"
         onSubmit={(event) => {
           event.preventDefault();
           const formData = new FormData(event.currentTarget);
@@ -118,13 +123,13 @@ const Signup = () => {
               onBlur={() => setUserFocus(false)}
               placeholder="Name"
               required
-              autoComplete="disabled"
+              autoComplete="off"
             />
-            <FormHelperText
-              sx={{ color: validName ? "success.main" : "danger.main" }}
-            >
-              {validName ? "✓" : "Please enter your name"}
-            </FormHelperText>
+            {userName && (
+              <FormHelperText>
+                {validName ? "✓" : "Please enter your name"}
+              </FormHelperText>
+            )}
           </FormControl>
           <FormControl error={!validEmail && email && !emailFocus}>
             <FormLabel>Email</FormLabel>
@@ -137,11 +142,11 @@ const Signup = () => {
               required
               autoComplete="disabled"
             />
-            <FormHelperText
-              sx={{ color: validEmail ? "success.main" : "danger.main" }}
-            >
-              {validEmail ? "✓" : "Please enter a valid email"}
-            </FormHelperText>
+            {email && (
+              <FormHelperText>
+                {validEmail ? "✓" : "Please enter a valid email"}
+              </FormHelperText>
+            )}
           </FormControl>
           <FormControl error={!validPwd && pwd && !pwdFocus}>
             <FormLabel>Password</FormLabel>
@@ -160,9 +165,7 @@ const Signup = () => {
               type={showPassword ? "text" : "password"}
               required
             />
-            <FormHelperText
-              sx={{ color: validPwd ? "success.main" : "danger.main" }}
-            >
+            <FormHelperText sx={{ fontSize: 12 }}>
               {validPwd
                 ? "✓"
                 : "8-24 characters with uppercase, lowercase, number, and special character (!@#$%()&)"}
@@ -179,23 +182,32 @@ const Signup = () => {
               disabled={!pwd}
               autoComplete="disabled"
             />
-            <FormHelperText
-              sx={{ color: validMatch ? "success.main" : "danger.main" }}
-            >
-              {validMatch
-                ? "✓ Passwords match"
-                : "Passwords do not match, try again"}
-            </FormHelperText>
+            {pwd && (
+              <FormHelperText>
+                {validMatch
+                  ? "✓ Passwords match"
+                  : "Passwords do not match, try again"}
+              </FormHelperText>
+            )}
           </FormControl>
+          <Box sx={{ height: 8 }} />
           <Button
             type="submit"
+            color="secondary"
+            variant="solid"
             disabled={!validMatch || !validName || !validEmail || !validPwd}
+            sx={{ py: 1.2 }}
           >
             Sign up
           </Button>
+          <p
+            className="underline py-4 cursor-pointer"
+            onClick={handleSwitchToLogin}
+          >
+            Already have an account? Log in
+          </p>
         </Stack>
       </form>
-      <p>Already have an account? Log in</p>
     </section>
   );
 };

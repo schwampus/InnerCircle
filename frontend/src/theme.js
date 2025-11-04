@@ -2,6 +2,9 @@ import { extendTheme } from "@mui/joy/styles";
 
 
 const theme = extendTheme({
+  fontFamily: {
+    body: '"Kanit", sans-serif',
+  },
   colorSchemes: {
     light: {
       palette: {
@@ -11,7 +14,7 @@ const theme = extendTheme({
           main: "var(--purple-main)",
           dark: "var(--purple-dark)",
           darker: "var(--purple-darker)",
-          
+
         },
         secondary: {
           lighter: "var(--orange-lighter)",
@@ -19,7 +22,7 @@ const theme = extendTheme({
           main: "var(--orange-main)",
           dark: "var(--orange-dark)",
           darker: "var(--orange-darker)",
-         
+
         },
       },
     },
@@ -27,9 +30,8 @@ const theme = extendTheme({
   components: {
     JoyButton: {
       styleOverrides: {
-        root: ({ theme }) => ({
+        root: ({ theme, ownerState }) => ({
           fontFamily: theme.vars.fontFamily.kanit,
-          backgroundColor: theme.vars.palette.primary.main,
           color: '#fff',
 
           // Example: hover, active, focus states
