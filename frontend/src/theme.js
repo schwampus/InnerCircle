@@ -24,6 +24,25 @@ const theme = extendTheme({
       },
     },
   },
+  components: {
+    JoyButton: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          fontFamily: theme.vars.fontFamily.kanit,
+          backgroundColor: theme.vars.palette.primary.main,
+          color: '#fff',
+
+          // Example: hover, active, focus states
+          '&:hover': {
+            backgroundColor: theme.vars.palette.primary.dark,
+          },
+          '&:active': {
+            backgroundColor: theme.vars.palette.primary.darker,
+          },
+        }),
+      },
+    },
+  },
 
 });
 
