@@ -20,9 +20,10 @@ const Login = () => {
       });
 
       const result = await response.json();
-      console.log("Success:", result);
+      console.log("Response:", result);
 
       if (result.user) {
+        console.log("Success:", result);
         // navigate();
         localStorage.setItem("userId", result.user.users_id);
         console.log(result.user.users_id);
@@ -44,7 +45,8 @@ const Login = () => {
 
   return (
     <section className="bg-(--purple-dark) w-full text-(--orange-main) px-8 py-10">
-      <form className="bg-(--purple-dark) w-full text-(--orange-main) px-8 py-10"
+      <form
+        className="bg-(--purple-dark) w-full text-(--orange-main) px-8 py-10"
         onSubmit={(event) => {
           event.preventDefault();
           const formData = new FormData(event.currentTarget);
@@ -83,7 +85,12 @@ const Login = () => {
               required
             />
           </FormControl>
-          <Button type="submit" color="warning" variant="solid" disabled={!email || !pwd}>
+          <Button
+            type="submit"
+            color="warning"
+            variant="solid"
+            disabled={!email || !pwd}
+          >
             Log in
           </Button>
         </Stack>
