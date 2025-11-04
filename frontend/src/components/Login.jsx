@@ -1,10 +1,8 @@
-import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { Button, FormControl, FormLabel, Input, Stack } from "@mui/joy";
 
-const Login = () => {
+const Login = (props) => {
   const [email, setEmail] = useState("");
-
   const [pwd, setPwd] = useState("");
   const [pwdFocus, setPwdFocus] = useState(false);
   const [showPassword, setShowPassword] = useState(true);
@@ -24,9 +22,10 @@ const Login = () => {
 
       if (result.user) {
         console.log("Success:", result);
-        // navigate();
         localStorage.setItem("userId", result.user.users_id);
         console.log(result.user.users_id);
+
+        props.toggleOpen();
       }
 
       resetForm();
@@ -39,12 +38,19 @@ const Login = () => {
     setEmail("");
     setPwd("");
     setShowPassword(false);
-
     setPwdFocus(false);
   }
 
+  const handleSwitchToSignup = () => {
+    props.toggleOpen(false);
+    setTimeout(() => {
+      props.toggleSignup(true)();
+    }, 100);
+  };
+
   return (
     <section className="bg-(--purple-dark) w-full text-(--orange-main) px-8 py-10">
+      <h2 className="text-2xl text-center">Log in</h2>
       <form
         className="bg-(--purple-dark) w-full text-(--orange-main) px-8 py-10"
         onSubmit={(event) => {
@@ -87,7 +93,7 @@ const Login = () => {
           </FormControl>
           <Button
             type="submit"
-            color="warning"
+            color="secondary"
             variant="solid"
             disabled={!email || !pwd}
           >
@@ -95,7 +101,12 @@ const Login = () => {
           </Button>
         </Stack>
       </form>
-      <p>Don't have an account? Sign up now</p>
+      <p
+        className="underline pl-9 cursor-pointer"
+        onClick={handleSwitchToSignup}
+      >
+        Don't have an account? Sign up now
+      </p>
     </section>
   );
 };

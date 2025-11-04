@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import {
   Button,
   FormControl,
@@ -12,7 +11,7 @@ import {
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%()&]).{8,24}$/;
 
-const Signup = () => {
+const Signup = (props) => {
   const [userName, setUserName] = useState("");
   const [validName, setValidName] = useState(false);
   const [userFocus, setUserFocus] = useState(false);
@@ -30,8 +29,6 @@ const Signup = () => {
   const [_matchFocus, setMatchFocus] = useState(false);
 
   const [showPassword, setShowPassword] = useState(true);
-
-  // const navigate = useNavigate();
 
   useEffect(() => {
     const result = userName.length >= 3;
@@ -68,9 +65,10 @@ const Signup = () => {
       console.log("Success:", result);
 
       if (result.user) {
-        // navigate("/login"); TODO: uncomment when I have routes!
         localStorage.setItem("userId", result.user.users_id);
         console.log(result.user.users_id);
+
+        props.toggleOpen();
       }
 
       resetForm();
@@ -97,8 +95,16 @@ const Signup = () => {
     setMatchFocus(false);
   }
 
+  const handleSwitchToLogin = () => {
+    props.toggleOpen(false);
+    setTimeout(() => {
+      props.toggleLogin(true)();
+    }, 100);
+  };
+
   return (
     <section className="bg-(--purple-dark) w-full text-(--orange-main) px-8 py-10">
+      <h2 className="text-2xl text-center">Sign up</h2>
       <form
         className="bg-(--purple-dark) w-full text-(--orange-main) px-8 py-10"
         onSubmit={(event) => {
@@ -195,7 +201,12 @@ const Signup = () => {
           </Button>
         </Stack>
       </form>
-      <p>Already have an account? Log in</p>
+      <p
+        className="underline pl-9 cursor-pointer"
+        onClick={handleSwitchToLogin}
+      >
+        Already have an account? Log in
+      </p>
     </section>
   );
 };
