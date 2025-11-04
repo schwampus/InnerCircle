@@ -33,20 +33,52 @@ const theme = extendTheme({
         root: ({ theme, ownerState }) => ({
           fontFamily: theme.vars.fontFamily.kanit,
           color: '#fff',
+          // Default to primary
+          ...(!ownerState.disabled && ownerState.color === 'primary' && {
+            backgroundColor: theme.vars.palette.primary.main,
+            '&:hover': {
+              backgroundColor: theme.vars.palette.primary.dark,
+            },
+            '&:active': {
+              backgroundColor: theme.vars.palette.primary.darker,
+            },
+          }),
 
-          // Example: hover, active, focus states
-          '&:hover': {
-            backgroundColor: theme.vars.palette.primary.dark,
-          },
-          '&:active': {
-            backgroundColor: theme.vars.palette.primary.darker,
-          },
+          // Secondary color variant
+          ...!ownerState.disabled && (ownerState.color === 'secondary' && {
+            color: 'var(--purple-main)',
+            backgroundColor: theme.vars.palette.secondary.main,
+            '&:hover': {
+              backgroundColor: theme.vars.palette.secondary.dark,
+            },
+            '&:active': {
+              backgroundColor: theme.vars.palette.secondary.darker,
+            },
+          }),
+          // Default fallback if no color specified
+          ...(!ownerState.disabled && !ownerState.color && {
+            backgroundColor: theme.vars.palette.primary.main,
+            '&:hover': {
+              backgroundColor: theme.vars.palette.primary.darker,
+            },
+          }),
+          // Disabled state using CSS variables
+          ...(ownerState.disabled && {
+            backgroundColor: 'var(--purple-darker)',
+            color: 'var(--purple-lighter)',
+            cursor: 'not-allowed',
+            '&:hover': {
+              backgroundColor: 'var(--orange-lighter)',
+            },
+            '&:active': {
+              backgroundColor: 'var(--orange-lighter)',
+            },
+          }),
         }),
       },
     },
-   
-  },
-  });
 
+  }
+});
 
 export default theme;
