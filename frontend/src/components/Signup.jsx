@@ -70,6 +70,7 @@ const Signup = (props) => {
         console.log(result.user.users_id);
 
         props.toggleClose();
+        props.toggleLogin();
       }
 
       resetForm();

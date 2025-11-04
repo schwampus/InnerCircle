@@ -85,7 +85,7 @@ export default function Home() {
             open={loginOpen}
             size="md"
           >
-            <Login toggleLogin={closeLogin} toggleSignup={switchToSignup} />
+            <Login toggleClose={closeLogin} toggleSignup={switchToSignup} />
           </Drawer>
           <Drawer
             anchor="bottom"
