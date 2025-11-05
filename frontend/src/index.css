@@ -33,9 +33,6 @@
 #wrapper {
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	min-height: 100vh; /* min-h-screen */
 	width: 100dvw;
 	background-color: var(--orange-white);
 }
@@ -44,12 +41,25 @@
 	display: flex;
 	width: 100dvw;
 	min-height: 60dvh;
-
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	text-align: center;
 	padding: 10px;
-
 	background-color: var(--orange-white);
+}
+
+.profile-input {
+	background-color: var(--purple-main);
+	color: var(--orange-white);
+	border: none;
+	padding: 8px;
+	border-radius: 4px;
+	border-color: var(--purple-lighter);
+	border-style: solid;
+}
+
+#profile-hero {
+	background-color: var(--purple-main);
+	min-height: 300px;
 }
