@@ -1,46 +1,10 @@
-import { useState } from "react";
-import { Button, Drawer } from "@mui/joy";
-import Signup from "../components/Signup";
-import Login from "../components/Login";
+import { useUser } from "../hooks/useUser";
+import { Button } from "@mui/joy";
+import { Link } from "react-router-dom";
+import AuthModal from "../components/AuthModal";
 
 export default function Home() {
-  const [loginOpen, setLoginOpen] = useState(false);
-  const [signUpOpen, setSignupOpen] = useState(false);
-
-  const toggleLoginDrawer = (inOpen) => (event) => {
-    if (
-      event?.type === "keydown" &&
-      (event.key === "Tab" || event.key === "Shift")
-    ) {
-      return;
-    }
-
-    setLoginOpen(inOpen);
-  };
-
-  const toggleSignupDrawer = (inOpen) => (event) => {
-    if (
-      event?.type === "keydown" &&
-      (event.key === "Tab" || event.key === "Shift")
-    ) {
-      return;
-    }
-
-    setSignupOpen(inOpen);
-  };
-
-  const closeSignup = () => setSignupOpen(false);
-  const closeLogin = () => setLoginOpen(false);
-
-  const switchToSignup = () => {
-    setLoginOpen(false);
-    setSignupOpen(true);
-  };
-
-  const switchToLogin = () => {
-    setSignupOpen(false);
-    setLoginOpen(true);
-  };
+  const { userId } = useUser();
 
   return (
     <>
@@ -61,44 +25,17 @@ export default function Home() {
             CIRCLE
           </h1>
         </div>
-
-        <div className="flex bg-(--purple-lighter) w-full justify-center gap-16 px-8 py-8">
-          <Button
-            onClick={toggleLoginDrawer(true)}
-            variant="solid"
-            color="primary"
-          >
-            LOG IN
+        <div className="flex bg-(--purple-lighter) w-full justify-around gap-2 px-8 py-8">
+          <Button variant="solid" color="secondary">
+            <Link to="/categories">EXPLORE CIRCLES</Link>
           </Button>
-          <Button
-            onClick={toggleSignupDrawer(true)}
-            variant="solid"
-            color="primary"
-          >
-            SIGN UP
-          </Button>
+          {!userId && <AuthModal authType={"signup"} />}
         </div>
-        <section>
-          <Drawer
-            anchor="bottom"
-            onClose={toggleLoginDrawer(false)}
-            open={loginOpen}
-            size="md"
-          >
-            <Login toggleClose={closeLogin} toggleSignup={switchToSignup} />
-          </Drawer>
-          <Drawer
-            anchor="bottom"
-            onClose={toggleSignupDrawer(false)}
-            open={signUpOpen}
-            size="lg"
-          >
-            <Signup toggleClose={closeSignup} toggleLogin={switchToLogin} />
-          </Drawer>
-        </section>
-
         <div className="bg-(--purple-dark) w-full h-64 text-(--orange-main) px-8 py-10">
-          <h2 className="font-bold">More about the circles:</h2>
+          <h2 className="font-[400] text-2xl px-8">
+            be first to know about your idols upcoming adventures ❤️‍🔥
+          </h2>
+          {/* <img src="" alt="" /> TODO: BLUR UNBLUR POST GIF */}
         </div>
       </div>
     </>
