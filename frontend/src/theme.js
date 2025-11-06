@@ -109,6 +109,37 @@ const theme = extendTheme({
         }),
       },
     },
+    JoyIconButton: {
+      styleOverrides: {
+        root: ({ theme, ownerState }) => ({
+          // OUTLINED VARIANT
+          ...(ownerState.variant === 'outlined' && {
+            backgroundColor: 'transparent',
+            border: '2px solid',
+            // Primary outlined
+            ...(ownerState.color === 'primary' && {
+              borderColor: theme.vars.palette.primary.main,
+              color: theme.vars.palette.primary.main,
+              '--Icon-color': 'var(--purple-main)',
+              '&:hover': {
+                backgroundColor: theme.vars.palette.primary.light,
+                color: theme.vars.palette.primary.dark,
+              },
+            }),
+            // Secondary outlined
+            ...(ownerState.color === 'secondary' && {
+              borderColor: theme.vars.palette.secondary.main,
+              color: theme.vars.palette.secondary.main,
+              '&:hover': {
+                backgroundColor: theme.vars.palette.secondary.main,
+                color: 'var(--orange-main)',
+                '--Icon-color': 'var(--orange-main)',
+              },
+            }),
+          }),
+        })
+      }
+    },
   }
 });
 

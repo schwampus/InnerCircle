@@ -1,53 +1,16 @@
 import { Link } from "react-router-dom";
-import { Box, Button, Drawer, IconButton, ModalClose, Menu } from "@mui/joy";
+import { Box, Button, Drawer, IconButton, ModalClose } from "@mui/joy";
+import { MenuOutlined } from "@mui/icons-material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useUser } from '../hooks/useUser'
-import Login from "./Login";
-import Signup from "./Signup";
+import { useUser } from "../hooks/useUser";
+import AuthModal from "./AuthModal";
 
 export default function Header() {
   const { userId, logout } = useUser();
   const [open, setOpen] = useState(false);
-  const [loginOpen, setLoginOpen] = useState(false);
-  const [signUpOpen, setSignupOpen] = useState(false);
 
   const navigate = useNavigate();
-
-  const toggleLoginDrawer = (inOpen) => (event) => {
-    if (
-      event?.type === "keydown" &&
-      (event.key === "Tab" || event.key === "Shift")
-    ) {
-      return;
-    }
-
-    setLoginOpen(inOpen);
-  };
-
-  const toggleSignupDrawer = (inOpen) => (event) => {
-    if (
-      event?.type === "keydown" &&
-      (event.key === "Tab" || event.key === "Shift")
-    ) {
-      return;
-    }
-
-    setSignupOpen(inOpen);
-  };
-
-  const closeSignup = () => setSignupOpen(false);
-  const closeLogin = () => setLoginOpen(false);
-
-  const switchToSignup = () => {
-    setLoginOpen(false);
-    setSignupOpen(true);
-  };
-
-  const switchToLogin = () => {
-    setSignupOpen(false);
-    setLoginOpen(true);
-  };
 
   const handleLinkClick = () => {
     setOpen(false);
@@ -65,10 +28,10 @@ export default function Header() {
         <div>
           <IconButton
             variant="outlined"
-            color="neutral"
+            color="primary"
             onClick={() => setOpen(true)}
           >
-            <Menu />
+            <MenuOutlined />
           </IconButton>
 
           <Drawer open={open} onClose={() => setOpen(false)}>
@@ -136,37 +99,7 @@ export default function Header() {
             </p>
           </Drawer>
         </div>
-
-        {!userId && (
-          <section>
-            <Button
-              onClick={toggleLoginDrawer(true)}
-              variant="outlined"
-              color="primary"
-            >
-              LOG IN
-            </Button>
-            <Drawer
-              anchor="bottom"
-              onClose={toggleLoginDrawer(false)}
-              open={loginOpen}
-              size="md"
-            >
-              <Login
-                toggleClose={closeLogin}
-                toggleSignup={switchToSignup}
-              />
-            </Drawer>
-            <Drawer
-              anchor="bottom"
-              onClose={toggleSignupDrawer(false)}
-              open={signUpOpen}
-              size="lg"
-            >
-              <Signup toggleClose={closeSignup} toggleLogin={switchToLogin} />
-            </Drawer>
-          </section>
-        )}
+        {!userId && <AuthModal authType={"login"} />}
       </div>
     </>
   );
