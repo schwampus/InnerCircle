@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { Button, Drawer } from "@mui/joy";
+import { useUser } from "../hooks/useUser";
 import Signup from "../components/Signup";
 import Login from "../components/Login";
 
 export default function Home() {
   const [loginOpen, setLoginOpen] = useState(false);
   const [signUpOpen, setSignupOpen] = useState(false);
+  const { userId } = useUser();
 
   const toggleLoginDrawer = (inOpen) => (event) => {
     if (
@@ -62,22 +64,24 @@ export default function Home() {
           </h1>
         </div>
 
-        <div className="flex bg-(--purple-lighter) w-full justify-center gap-16 px-8 py-8">
-          <Button
-            onClick={toggleLoginDrawer(true)}
-            variant="solid"
-            color="primary"
-          >
-            LOG IN
-          </Button>
-          <Button
-            onClick={toggleSignupDrawer(true)}
-            variant="solid"
-            color="primary"
-          >
-            SIGN UP
-          </Button>
-        </div>
+        {!userId && (
+          <div className="flex bg-(--purple-lighter) w-full justify-center gap-16 px-8 py-8">
+            <Button
+              onClick={toggleLoginDrawer(true)}
+              variant="solid"
+              color="primary"
+            >
+              LOG IN
+            </Button>
+            <Button
+              onClick={toggleSignupDrawer(true)}
+              variant="solid"
+              color="primary"
+            >
+              SIGN UP
+            </Button>
+          </div>
+        )}
         <section>
           <Drawer
             anchor="bottom"

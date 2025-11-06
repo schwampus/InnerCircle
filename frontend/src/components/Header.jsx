@@ -1,13 +1,18 @@
 import { Link } from "react-router-dom";
 import { Box, Button, Drawer, IconButton, ModalClose, Menu } from "@mui/joy";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useUser } from '../hooks/useUser'
 import Login from "./Login";
 import Signup from "./Signup";
 
 export default function Header() {
+  const { userId, logout } = useUser();
   const [open, setOpen] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
   const [signUpOpen, setSignupOpen] = useState(false);
+
+  const navigate = useNavigate();
 
   const toggleLoginDrawer = (inOpen) => (event) => {
     if (
@@ -48,6 +53,12 @@ export default function Header() {
     setOpen(false);
   };
 
+  const Logout = () => {
+    logout();
+    setOpen(false);
+    navigate("/");
+  };
+
   return (
     <>
       <div className="flex justify-between items-center px-6 bg-(--purple-white) h-18">
@@ -84,11 +95,13 @@ export default function Header() {
                   FEED
                 </Link>
               </li>
-              <li>
-                <Link to="/profile" onClick={handleLinkClick}>
-                  PROFILE
-                </Link>
-              </li>
+              {userId && (
+                <li>
+                  <Link to="/profile" onClick={handleLinkClick}>
+                    PROFILE
+                  </Link>
+                </li>
+              )}
               <li>
                 <Link to="/categories" onClick={handleLinkClick}>
                   CATEGORIES
@@ -104,6 +117,18 @@ export default function Header() {
                   FAQ
                 </Link>
               </li>
+              <li>
+                {userId && (
+                  <Button
+                    onClick={Logout}
+                    variant="outlined"
+                    color="secondary"
+                    sx={{ mt: 20 }}
+                  >
+                    LOG OUT
+                  </Button>
+                )}
+              </li>
             </ul>
 
             <p className="pb-12 text-sm text-center bg-(--purple-dark) text-(--purple-lighter)">
@@ -112,31 +137,36 @@ export default function Header() {
           </Drawer>
         </div>
 
-        <section>
-          <Button
-            onClick={toggleLoginDrawer(true)}
-            variant="outlined"
-            color="primary"
-          >
-            LOG IN
-          </Button>
-          <Drawer
-            anchor="bottom"
-            onClose={toggleLoginDrawer(false)}
-            open={loginOpen}
-            size="md"
-          >
-            <Login toggleClose={closeLogin} toggleSignup={switchToSignup} />
-          </Drawer>
-          <Drawer
-            anchor="bottom"
-            onClose={toggleSignupDrawer(false)}
-            open={signUpOpen}
-            size="lg"
-          >
-            <Signup toggleClose={closeSignup} toggleLogin={switchToLogin} />
-          </Drawer>
-        </section>
+        {!userId && (
+          <section>
+            <Button
+              onClick={toggleLoginDrawer(true)}
+              variant="outlined"
+              color="primary"
+            >
+              LOG IN
+            </Button>
+            <Drawer
+              anchor="bottom"
+              onClose={toggleLoginDrawer(false)}
+              open={loginOpen}
+              size="md"
+            >
+              <Login
+                toggleClose={closeLogin}
+                toggleSignup={switchToSignup}
+              />
+            </Drawer>
+            <Drawer
+              anchor="bottom"
+              onClose={toggleSignupDrawer(false)}
+              open={signUpOpen}
+              size="lg"
+            >
+              <Signup toggleClose={closeSignup} toggleLogin={switchToLogin} />
+            </Drawer>
+          </section>
+        )}
       </div>
     </>
   );
