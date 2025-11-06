@@ -1,14 +1,48 @@
 import { Link } from "react-router-dom";
-import { Button } from "@mui/joy";
-import Drawer from "@mui/joy/Drawer";
-import IconButton from "@mui/joy/IconButton";
-import ModalClose from "@mui/joy/ModalClose";
-import Box from "@mui/joy/Box";
-import Menu from "@mui/icons-material/Menu";
+import { Box, Button, Drawer, IconButton, ModalClose, Menu } from "@mui/joy";
 import { useState } from "react";
+import Login from "./Login";
+import Signup from "./Signup";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
+  const [loginOpen, setLoginOpen] = useState(false);
+  const [signUpOpen, setSignupOpen] = useState(false);
+
+  const toggleLoginDrawer = (inOpen) => (event) => {
+    if (
+      event?.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
+
+    setLoginOpen(inOpen);
+  };
+
+  const toggleSignupDrawer = (inOpen) => (event) => {
+    if (
+      event?.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
+
+    setSignupOpen(inOpen);
+  };
+
+  const closeSignup = () => setSignupOpen(false);
+  const closeLogin = () => setLoginOpen(false);
+
+  const switchToSignup = () => {
+    setLoginOpen(false);
+    setSignupOpen(true);
+  };
+
+  const switchToLogin = () => {
+    setSignupOpen(false);
+    setLoginOpen(true);
+  };
 
   const handleLinkClick = () => {
     setOpen(false);
@@ -78,9 +112,31 @@ export default function Header() {
           </Drawer>
         </div>
 
-        <Button component={Link} to="/login" variant="solid" color="primary">
-          LOG IN
-        </Button>
+        <section>
+          <Button
+            onClick={toggleLoginDrawer(true)}
+            variant="outlined"
+            color="primary"
+          >
+            LOG IN
+          </Button>
+          <Drawer
+            anchor="bottom"
+            onClose={toggleLoginDrawer(false)}
+            open={loginOpen}
+            size="md"
+          >
+            <Login toggleClose={closeLogin} toggleSignup={switchToSignup} />
+          </Drawer>
+          <Drawer
+            anchor="bottom"
+            onClose={toggleSignupDrawer(false)}
+            open={signUpOpen}
+            size="lg"
+          >
+            <Signup toggleClose={closeSignup} toggleLogin={switchToLogin} />
+          </Drawer>
+        </section>
       </div>
     </>
   );

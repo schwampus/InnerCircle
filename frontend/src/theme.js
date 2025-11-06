@@ -1,7 +1,7 @@
 import { extendTheme } from "@mui/joy/styles";
 
-
 const theme = extendTheme({
+  cssVarPrefix: 'joy',
   fontFamily: {
     body: '"Kanit", sans-serif',
   },
@@ -14,7 +14,6 @@ const theme = extendTheme({
           main: "var(--purple-main)",
           dark: "var(--purple-dark)",
           darker: "var(--purple-darker)",
-
         },
         secondary: {
           lighter: "var(--orange-lighter)",
@@ -22,7 +21,24 @@ const theme = extendTheme({
           main: "var(--orange-main)",
           dark: "var(--orange-dark)",
           darker: "var(--orange-darker)",
-
+        },
+      },
+    },
+    dark: {
+      palette: {
+        primary: {
+          lighter: "var(--purple-lighter)",
+          light: "var(--purple-light)",
+          main: "var(--purple-main)",
+          dark: "var(--purple-dark)",
+          darker: "var(--purple-darker)",
+        },
+        secondary: {
+          lighter: "var(--orange-lighter)",
+          light: "var(--orange-light)",
+          main: "var(--orange-main)",
+          dark: "var(--orange-dark)",
+          darker: "var(--orange-darker)",
         },
       },
     },
@@ -32,52 +48,67 @@ const theme = extendTheme({
       styleOverrides: {
         root: ({ theme, ownerState }) => ({
           fontFamily: theme.vars.fontFamily.kanit,
-          color: '#fff',
-          // Default to primary
-          ...(!ownerState.disabled && ownerState.color === 'primary' && {
-            backgroundColor: theme.vars.palette.primary.main,
-            '&:hover': {
-              backgroundColor: theme.vars.palette.primary.dark,
-            },
-            '&:active': {
-              backgroundColor: theme.vars.palette.primary.darker,
-            },
+
+          // SOLID VARIANT
+          ...(ownerState.variant === 'solid' && {
+            color: '#fff',
+            // Primary solid
+            ...(!ownerState.disabled && ownerState.color === 'primary' && {
+              backgroundColor: theme.vars.palette.primary.main,
+              '&:hover': {
+                backgroundColor: theme.vars.palette.primary.dark,
+              },
+              '&:active': {
+                backgroundColor: theme.vars.palette.primary.darker,
+              },
+            }),
+            // Secondary solid
+            ...(!ownerState.disabled && ownerState.color === 'secondary' && {
+              color: 'var(--purple-main)',
+              backgroundColor: theme.vars.palette.secondary.main,
+              '&:hover': {
+                backgroundColor: theme.vars.palette.secondary.dark,
+              },
+              '&:active': {
+                backgroundColor: theme.vars.palette.secondary.darker,
+              },
+            }),
           }),
 
-          // Secondary color variant
-          ...!ownerState.disabled && (ownerState.color === 'secondary' && {
-            color: 'var(--purple-main)',
-            backgroundColor: theme.vars.palette.secondary.main,
-            '&:hover': {
-              backgroundColor: theme.vars.palette.secondary.dark,
-            },
-            '&:active': {
-              backgroundColor: theme.vars.palette.secondary.darker,
-            },
+          // OUTLINED VARIANT
+          ...(ownerState.variant === 'outlined' && {
+            backgroundColor: 'transparent',
+            border: '2px solid',
+            // Primary outlined
+            ...(!ownerState.disabled && ownerState.color === 'primary' && {
+              borderColor: theme.vars.palette.primary.main,
+              color: theme.vars.palette.primary.main,
+              '&:hover': {
+                backgroundColor: theme.vars.palette.primary.main,
+                color: '#fff',
+              },
+            }),
+            // Secondary outlined
+            ...(!ownerState.disabled && ownerState.color === 'secondary' && {
+              borderColor: theme.vars.palette.secondary.main,
+              color: theme.vars.palette.secondary.main,
+              '&:hover': {
+                backgroundColor: theme.vars.palette.secondary.main,
+                color: 'var(--purple-main)',
+              },
+            }),
           }),
-          // Default fallback if no color specified
-          ...(!ownerState.disabled && !ownerState.color && {
-            backgroundColor: theme.vars.palette.primary.main,
-            '&:hover': {
-              backgroundColor: theme.vars.palette.primary.darker,
-            },
-          }),
-          // Disabled state using CSS variables
+
+          // Disabled state
           ...(ownerState.disabled && {
             backgroundColor: 'var(--purple-darker)',
             color: 'var(--purple-lighter)',
             cursor: 'not-allowed',
-            '&:hover': {
-              backgroundColor: 'var(--orange-lighter)',
-            },
-            '&:active': {
-              backgroundColor: 'var(--orange-lighter)',
-            },
+            border: ownerState.variant === 'outlined' ? '2px solid var(--purple-lighter)' : 'none',
           }),
         }),
       },
     },
-
   }
 });
 
