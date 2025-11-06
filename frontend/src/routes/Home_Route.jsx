@@ -54,10 +54,10 @@ export default function Home() {
     flex flex-col justify-center items-center text-center
     overflow-hidden"
         >
-          <h1 className="text-6xl  font-climate text-(--orange-main) ">
+          <h1 className="text-6xl font-climate text-(--orange-main) ">
             INNER
           </h1>
-          <h1 className="text-6xl  font-climate text-(--purple-main) ">
+          <h1 className="text-6xl font-climate text-(--purple-main) ">
             CIRCLE
           </h1>
         </div>
