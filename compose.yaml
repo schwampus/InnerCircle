@@ -1,6 +1,6 @@
 services: 
   backend:
-      build: ic-backend
+      build: backend
       depends_on:
         database:
           condition: service_healthy
@@ -18,7 +18,7 @@ services:
       volumes:
         - ./data:/var/lib/postgresql/data
   frontend:
-      build: ic-frontend
+      build: frontend
       ports:
         - "80:80"
       depends_on:
