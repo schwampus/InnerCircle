@@ -6,15 +6,20 @@ import Post from "../components/Post.jsx";
 export default function Feed() {
   const [circles, setCircles] = useState([]);
   const userId = "ab71881f-dc4f-4481-a689-55e506679a5e";
+  // const userId = '';
   // const { userId } = useUser();
 
   useEffect(() => {
-    fetch(`api/user-circles/feed/${userId}`)
-      .then((response) => response.json())
-      .then((result) => {
-        console.log(result);
-        setCircles(result);
-      });
+    if (userId) {
+      fetch(`api/user-circles/feed/${userId}`)
+        .then((response) => response.json())
+        .then((result) => {
+          console.log(result);
+          setCircles(result);
+        });
+    } else {
+      //TODO: fetch posts and display blurred
+    }
   }, []);
 
   return (
