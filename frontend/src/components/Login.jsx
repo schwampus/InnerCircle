@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { Box, Button, FormControl, FormLabel, Input, Stack } from "@mui/joy";
+import { useUser } from "../hooks/useUser";
 
 const Login = (props) => {
+  const { login } = useUser();
   const [email, setEmail] = useState("");
   const [pwd, setPwd] = useState("");
   const [_pwdFocus, setPwdFocus] = useState(false);
-  const [showPassword, setShowPassword] = useState(true);
 
-  async function login(formData) {
+  async function handleLogin(formData) {
     try {
       const response = await fetch("/api/login/", {
         method: "POST",
@@ -24,6 +25,7 @@ const Login = (props) => {
         console.log("Success:", result);
         localStorage.setItem("userId", result.user.users_id);
         console.log(result.user.users_id);
+        login(result.user.users_id);
 
         props.toggleClose();
       }
@@ -37,7 +39,6 @@ const Login = (props) => {
   function resetForm() {
     setEmail("");
     setPwd("");
-    setShowPassword(false);
     setPwdFocus(false);
   }
 
@@ -54,7 +55,7 @@ const Login = (props) => {
           event.preventDefault();
           const formData = new FormData(event.currentTarget);
           const formJson = Object.fromEntries(formData.entries());
-          login(formJson);
+          handleLogin(formJson);
         }}
       >
         <Stack spacing={1.2}>
@@ -77,14 +78,12 @@ const Login = (props) => {
               onChange={(e) => setPwd(e.target.value)}
               onBlur={() => {
                 setPwdFocus(false);
-                setShowPassword(false);
               }}
               onFocus={() => {
                 setPwdFocus(true);
-                setShowPassword(true);
               }}
               placeholder="Password"
-              type={showPassword ? "text" : "password"}
+              type="password"
               required
             />
           </FormControl>
