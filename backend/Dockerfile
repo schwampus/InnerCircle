@@ -1,4 +1,6 @@
 FROM node
+RUN addgroup app && adduser -S -G app app
+USER app
 WORKDIR /app/
 COPY . /app/
 RUN npm install
