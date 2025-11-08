@@ -11,7 +11,7 @@ import AuthModal from "../components/AuthModal";
 
 export default function CirclePage() {
   //   const { circleId, _circleSlug } = useParams;
-  const circleId = 26;
+  const circleId = 5;
   const [circleName, setCircleName] = useState("Candide Thovex");
   const [circleAvatar, setCircleAvatar] = useState(null);
   const [circleBio, setCircleBio] = useState("");
@@ -21,36 +21,37 @@ export default function CirclePage() {
   const { userId } = useUser();
 
   useEffect(() => {
-    fetch(`api/circles/${circleId}`)
+    fetch(`/api/circles/${circleId}`)
       .then((response) => response.json())
       .then((result) => {
-        setCircleName(result.circle_name);
-        setCircleAvatar(result.circle_avatar);
-        setCircleBio(result.circle_bio);
+        setCircleName(result[0].circle_name);
+        setCircleAvatar(result[0].circle_avatar);
+        setCircleBio(result[0].circle_bio);
       });
-  });
+  }, []);
 
   useEffect(() => {
-    fetch(`api/circles/${circleId}/fans`)
+    fetch(`/api/circles/${circleId}/fans`)
       .then((response) => response.json())
       .then((result) => {
         const circleMember = result.find(({ uc_user_id }) => {
-          uc_user_id === userId;
+          return uc_user_id === userId;
         });
         if (circleMember) {
           setIsMember(true);
           setUserTier(circleMember.uc_circle_tier);
         }
       });
-  });
+  }, [circleId, userId]);
 
   useEffect(() => {
-    fetch(`api/posts/all/${circleId}`)
+    fetch(`/api/posts/all/${circleId}`)
       .then((response) => response.json())
       .then((result) => {
+        console.log(result);
         setCirclePosts(result);
       });
-  });
+  }, [circleId]);
 
   const handleMembership = (chosenTier) => {
     setIsMember(true);
@@ -58,21 +59,30 @@ export default function CirclePage() {
   };
 
   return (
-    <article>
-      <Avatar src={circleAvatar} />
-      <h1>{circleName}</h1>
-      <p>In the circle: 12k members</p>
-      <p>{circleBio}</p>
-      {!isMember && (
-        <div>
-          <h2>
-            Become a part of {circleName} circle to access the exclusive content
-          </h2>
-          <AuthModal type="join" />
-        </div>
-      )}
-      <h2>What's {circleName} up to?</h2>
-      <section>
+    <article className="wrapper-dark py-2">
+      <section className="px-6 py-4 font-kanit">
+        <Avatar src={circleAvatar} className="w-lg mx-auto" />
+        <h1 className="text-3xl text-center text-(--orange-main) py-8">
+          {circleName}
+        </h1>
+        <p className="text-sm text-(--purple-white)">
+          In the circle: 12k members
+        </p>
+        <p className="text-base text-(--orange-white) py-6">{circleBio}</p>
+        {!isMember && (
+          <div className="bg-(--purple-light) py-2 px-6 rounded-lg shadow-md">
+            <h2 className="text-base text-(--purple-white) py-4">
+              Become a part of {circleName} circle to access the exclusive
+              content
+            </h2>
+            <AuthModal type="join" handleJoin={handleMembership} />
+          </div>
+        )}
+      </section>
+      <section className="wrapper py-6">
+        <h2 className="text-2xl text-left text-(--orange-main) py-4 px-4">
+          What's {circleName} up to?
+        </h2>
         {circlePosts &&
           circlePosts.map((p) => {
             const mediaProps = {};

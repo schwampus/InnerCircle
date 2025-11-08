@@ -24,13 +24,13 @@ GET http://localhost:3000/api/posts/12
 GET http://localhost:3000/api/categories/Snow
 
 ### athlete profile details
-GET http://localhost:3000/api/circles/2
+GET http://localhost:3000/api/circles/5
 
 ### circle fans
-GET http://localhost:3000/api/circles/25/fans
+GET http://localhost:3000/api/circles/5/fans
 
 ### circle post
-GET http://localhost:3000/api/posts/all/3
+GET http://localhost:3000/api/posts/all/5
 
 ### list of user circles 
 GET http://localhost:3000/api/user-circles/ab71881f-dc4f-4481-a689-55e506679a5e

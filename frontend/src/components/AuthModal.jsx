@@ -3,9 +3,10 @@ import { Button, Drawer } from "@mui/joy";
 import Signup from "../components/Signup";
 import Login from "../components/Login";
 
-const AuthModal = ({ authType }) => {
+const AuthModal = ({ authType, type }) => {
   const [loginOpen, setLoginOpen] = useState(false);
   const [signUpOpen, setSignupOpen] = useState(false);
+  const [joinOpen, setJoinOpen] = useState(false);
 
   const toggleLoginDrawer = (inOpen) => (event) => {
     if (
@@ -29,6 +30,17 @@ const AuthModal = ({ authType }) => {
     setSignupOpen(inOpen);
   };
 
+  const toggleJoinDrawer = (inOpen) => (event) => {
+    if (
+      event?.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
+
+    setJoinOpen(inOpen);
+  };
+
   const closeSignup = () => setSignupOpen(false);
   const closeLogin = () => setLoginOpen(false);
 
@@ -44,7 +56,7 @@ const AuthModal = ({ authType }) => {
 
   return (
     <section>
-      {authType === "login" ? (
+      {authType === "login" && (
         <Button
           onClick={toggleLoginDrawer(true)}
           variant="outlined"
@@ -52,13 +64,23 @@ const AuthModal = ({ authType }) => {
         >
           LOG IN
         </Button>
-      ) : (
+      )}
+      {authType === "signup" && (
         <Button
           onClick={toggleSignupDrawer(true)}
           variant="solid"
           color="primary"
         >
           SIGN UP
+        </Button>
+      )}
+      {type === "join" && (
+        <Button
+          onClick={toggleSignupDrawer(true)}
+          variant="solid"
+          color="secondary"
+        >
+          STEP INSIDE
         </Button>
       )}
       <section>
@@ -77,6 +99,14 @@ const AuthModal = ({ authType }) => {
           size="lg"
         >
           <Signup toggleClose={closeSignup} toggleLogin={switchToLogin} />
+        </Drawer>
+        <Drawer
+          anchor="bottom"
+          onClose={toggleJoinDrawer(false)}
+          open={joinOpen}
+          size="lg"
+        >
+          <Signup toggleClose={closeSignup} />
         </Drawer>
       </section>
     </section>

@@ -30,10 +30,30 @@
 	--neutral-dark: #bfbfbf;
 }
 
+.wrapper {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	/* width: 100dvw; */
+	min-height: 60svh;
+	background-color: var(--orange-white);
+	box-sizing: border-box;
+	padding-inline: 0.2em;
+}
+
+.wrapper-dark {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	min-height: 60svh;
+	background-color: var(--purple-darker);
+	box-sizing: border-box;
+}
+
 #wrapper {
 	display: flex;
 	flex-direction: column;
-	width: 100dvw;
+	/* width: 100dvw; */
 	background-color: var(--orange-white);
 }
 

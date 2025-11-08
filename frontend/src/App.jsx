@@ -24,7 +24,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/faq" element={<Faq />} />
         <Route
-          path="/circle/:circle_id/:circle_slug"
+          path="/circle/:circleId/:circleSlug"
           element={<CirclePage />}
         />
       </Routes>

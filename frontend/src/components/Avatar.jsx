@@ -6,9 +6,9 @@ export default function Avatar(props) {
   };
 
   const borderColor =
-    colorMap[props.tierColor] || props.tierColor.toLowerCase() || "transparent";
+    colorMap[props.tierColor] || props.tierColor?.toLowerCase() || "transparent";
   const textColor =
-    colorMap[props.tierColor] || props.tierColor.toLowerCase() || "transparent";
+    colorMap[props.tierColor] || props.tierColor?.toLowerCase() || "transparent";
 
   return (
     <div

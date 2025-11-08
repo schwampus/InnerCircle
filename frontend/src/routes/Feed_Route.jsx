@@ -11,7 +11,7 @@ export default function Feed() {
 
   useEffect(() => {
     if (userId) {
-      fetch(`api/user-circles/feed/${userId}`)
+      fetch(`/api/user-circles/feed/${userId}`)
         .then((response) => response.json())
         .then((result) => {
           console.log(result);
@@ -24,7 +24,7 @@ export default function Feed() {
 
   return (
     <>
-      <div id="wrapper" className="h-svh">
+      <div className="wrapper min-h-svh">
         <h1 className="text-3xl text-center font-black font-kanit py-8">
           WHO'S UP TO WHAT?
         </h1>
