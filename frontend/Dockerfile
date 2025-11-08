@@ -1,7 +1,10 @@
-FROM node as vite-app
+FROM node AS vite-app
 WORKDIR /app/
-COPY . /app/
-RUN npm i && npm run build
+COPY package*.json ./
+RUN npm install
+COPY . . 
+EXPOSE 5173
+CMD ["npm", "run", "dev"]
 
 FROM nginx:stable
 
