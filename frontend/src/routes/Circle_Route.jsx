@@ -15,6 +15,7 @@ export default function CirclePage() {
   const [circleName, setCircleName] = useState("Candide Thovex");
   const [circleAvatar, setCircleAvatar] = useState(null);
   const [circleBio, setCircleBio] = useState("");
+  const [circleMembers, setCircleMembers] = useState("");
   const [circlePosts, setCirclePosts] = useState([]);
   const [isMember, setIsMember] = useState(false);
   const [userTier, setUserTier] = useState(null);
@@ -27,6 +28,7 @@ export default function CirclePage() {
         setCircleName(result[0].circle_name);
         setCircleAvatar(result[0].circle_avatar);
         setCircleBio(result[0].circle_bio);
+        setCircleMembers(result[0].circle_members);
       });
   }, []);
 
@@ -58,20 +60,26 @@ export default function CirclePage() {
     setUserTier(chosenTier);
   };
 
+  const shouldBlur = (postTier, userTier) => {
+    if (!userTier) return false;
+    const tierHierarchy = { Bronze: 1, Silver: 2, Gold: 3 };
+    return tierHierarchy[userTier] < tierHierarchy[postTier];
+  };
+
   return (
     <article className="wrapper-dark py-2">
-      <section className="px-6 py-4 font-kanit">
-        <Avatar src={circleAvatar} className="w-lg mx-auto" />
-        <h1 className="text-3xl text-center text-(--orange-main) py-8">
+      <section className="px-6 py-8 font-kanit flex flex-col items-center">
+        <Avatar src={circleAvatar} variant="large" />
+        <h1 className="text-3xl text-center text-(--orange-main) py-6">
           {circleName}
         </h1>
         <p className="text-sm text-(--purple-white)">
-          In the circle: 12k members
+          In the circle: {circleMembers} members
         </p>
         <p className="text-base text-(--orange-white) py-6">{circleBio}</p>
         {!isMember && (
-          <div className="bg-(--purple-light) py-2 px-6 rounded-lg shadow-md">
-            <h2 className="text-base text-(--purple-white) py-4">
+          <div className="flex flex-col items-center bg-(--purple-white) py-8 px-6 rounded-lg shadow-md">
+            <h2 className="text-lg text-(--purple-dark) pb-6">
               Become a part of {circleName} circle to access the exclusive
               content
             </h2>
@@ -80,7 +88,7 @@ export default function CirclePage() {
         )}
       </section>
       <section className="wrapper py-6">
-        <h2 className="text-2xl text-left text-(--orange-main) py-4 px-4">
+        <h2 className="font-semibold text-2xl text-left text-(--purple-darker) py-4 px-4">
           What's {circleName} up to?
         </h2>
         {circlePosts &&
@@ -94,7 +102,7 @@ export default function CirclePage() {
               }
             }
 
-            // if(p.post_tier ) TODO: write a tier check somehow
+            let blurred = shouldBlur(p.post_tier, userTier);
 
             return (
               <Post
@@ -103,6 +111,7 @@ export default function CirclePage() {
                 text={p.post_text}
                 tier={p.post_tier}
                 imgsrc={p.circle_avatar}
+                blur={blurred}
                 {...mediaProps}
               />
             );
