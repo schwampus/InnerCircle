@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
-import {
-  Box,
-  Button,
-  FormControl,
-  FormLabel,
-  FormHelperText,
-  Input,
-  Stack,
-} from "@mui/joy";
+import Box from "@mui/joy/Box";
+import Button from "@mui/joy/Button";
+import Checkbox from "@mui/joy/Checkbox";
+import FormControl from "@mui/joy/FormControl";
+import FormLabel from "@mui/joy/FormLabel";
+import FormHelperText from "@mui/joy/FormHelperText";
+import Input from "@mui/joy/Input";
+import Stack from "@mui/joy/Stack";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%()&]).{8,24}$/;
@@ -30,6 +29,32 @@ const Signup = (props) => {
   const [_matchFocus, setMatchFocus] = useState(false);
 
   const [showPassword, setShowPassword] = useState(true);
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
+
+  const checkboxLabel = (
+    <span>
+      By signing up, you are creating an InnerCircle account and agree to Inner
+      Circle's{" "}
+      <a
+        href="/terms"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="underline text-(--orange-main) hover:text-(--orange-white)"
+      >
+        Terms
+      </a>{" "}
+      and{" "}
+      <a
+        href="/privacy"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="underline text-(--orange-main) hover:text-(--orange-white)"
+      >
+        Privacy Policy
+      </a>
+      .
+    </span>
+  );
 
   useEffect(() => {
     const result = userName.length >= 3;
@@ -85,6 +110,7 @@ const Signup = (props) => {
     setPwd("");
     setMatchPwd("");
     setShowPassword(false);
+    setAgreedToTerms(false);
 
     setValidName(false);
     setValidEmail(false);
@@ -191,11 +217,25 @@ const Signup = (props) => {
             )}
           </FormControl>
           <Box sx={{ height: 8 }} />
+          {validPwd && validMatch && (
+            <Checkbox
+              label={checkboxLabel}
+              variant="outlined"
+              checked={agreedToTerms}
+              onChange={(e) => setAgreedToTerms(e.target.checked)}
+            />
+          )}
           <Button
             type="submit"
             color="secondary"
             variant="solid"
-            disabled={!validMatch || !validName || !validEmail || !validPwd}
+            disabled={
+              !validMatch ||
+              !validName ||
+              !validEmail ||
+              !validPwd ||
+              !agreedToTerms
+            }
             sx={{ py: 1.2 }}
           >
             Sign up

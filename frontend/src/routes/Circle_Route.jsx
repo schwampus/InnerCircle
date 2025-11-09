@@ -83,7 +83,7 @@ export default function CirclePage() {
               Become a part of {circleName} circle to access the exclusive
               content
             </h2>
-            <AuthModal type="join" handleJoin={handleMembership} />
+            <AuthModal circleName={circleName} type="join" handleJoin={handleMembership} />
           </div>
         )}
       </section>

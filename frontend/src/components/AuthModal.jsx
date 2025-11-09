@@ -2,8 +2,9 @@ import { useState } from "react";
 import { Button, Drawer } from "@mui/joy";
 import Signup from "../components/Signup";
 import Login from "../components/Login";
+import JoinCircle from "./JoinCircle";
 
-const AuthModal = ({ authType, type }) => {
+const AuthModal = ({ authType, type, circleName }) => {
   const [loginOpen, setLoginOpen] = useState(false);
   const [signUpOpen, setSignupOpen] = useState(false);
   const [joinOpen, setJoinOpen] = useState(false);
@@ -106,7 +107,7 @@ const AuthModal = ({ authType, type }) => {
           open={joinOpen}
           size="lg"
         >
-          <Signup toggleClose={closeSignup} />
+          <JoinCircle circleName={circleName} />
         </Drawer>
       </section>
     </section>
