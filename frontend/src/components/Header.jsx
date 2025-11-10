@@ -1,17 +1,25 @@
 import { Link } from "react-router-dom";
-import { Button } from "@mui/joy";
-import Drawer from "@mui/joy/Drawer";
-import IconButton from "@mui/joy/IconButton";
-import ModalClose from "@mui/joy/ModalClose";
-import Box from "@mui/joy/Box";
-import Menu from "@mui/icons-material/Menu";
+import { Box, Button, Drawer, IconButton, ModalClose } from "@mui/joy";
+import { MenuOutlined } from "@mui/icons-material";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useUser } from "../hooks/useUser";
+import AuthModal from "./AuthModal";
 
 export default function Header() {
+  const { userId, logout } = useUser();
   const [open, setOpen] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleLinkClick = () => {
     setOpen(false);
+  };
+
+  const Logout = () => {
+    logout();
+    setOpen(false);
+    navigate("/");
   };
 
   return (
@@ -20,10 +28,10 @@ export default function Header() {
         <div>
           <IconButton
             variant="outlined"
-            color="neutral"
+            color="primary"
             onClick={() => setOpen(true)}
           >
-            <Menu />
+            <MenuOutlined />
           </IconButton>
 
           <Drawer open={open} onClose={() => setOpen(false)}>
@@ -50,11 +58,13 @@ export default function Header() {
                   FEED
                 </Link>
               </li>
-              <li>
-                <Link to="/profile" onClick={handleLinkClick}>
-                  PROFILE
-                </Link>
-              </li>
+              {userId && (
+                <li>
+                  <Link to="/profile" onClick={handleLinkClick}>
+                    PROFILE
+                  </Link>
+                </li>
+              )}
               <li>
                 <Link to="/categories" onClick={handleLinkClick}>
                   CATEGORIES
@@ -70,6 +80,18 @@ export default function Header() {
                   FAQ
                 </Link>
               </li>
+              <li>
+                {userId && (
+                  <Button
+                    onClick={Logout}
+                    variant="outlined"
+                    color="secondary"
+                    sx={{ mt: 20 }}
+                  >
+                    LOG OUT
+                  </Button>
+                )}
+              </li>
             </ul>
 
             <p className="pb-12 text-sm text-center bg-(--purple-dark) text-(--purple-lighter)">
@@ -77,10 +99,7 @@ export default function Header() {
             </p>
           </Drawer>
         </div>
-
-        <Button component={Link} to="/login" variant="solid" color="primary">
-          LOG IN
-        </Button>
+        {!userId && <AuthModal authType={"login"} />}
       </div>
     </>
   );
