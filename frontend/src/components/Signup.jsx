@@ -216,7 +216,6 @@ const Signup = (props) => {
               </FormHelperText>
             )}
           </FormControl>
-          <Box sx={{ height: 8 }} />
           {validPwd && validMatch && (
             <Checkbox
               label={checkboxLabel}
@@ -225,6 +224,7 @@ const Signup = (props) => {
               onChange={(e) => setAgreedToTerms(e.target.checked)}
             />
           )}
+          <Box sx={{ height: 8 }} />
           <Button
             type="submit"
             color="secondary"

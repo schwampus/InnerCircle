@@ -4,7 +4,7 @@ import Signup from "../components/Signup";
 import Login from "../components/Login";
 import JoinCircle from "./JoinCircle";
 
-const AuthModal = ({ authType, type, circleName }) => {
+const AuthModal = ({ authType, type, circleName, isMember }) => {
   const [loginOpen, setLoginOpen] = useState(false);
   const [signUpOpen, setSignupOpen] = useState(false);
   const [joinOpen, setJoinOpen] = useState(false);
@@ -55,6 +55,11 @@ const AuthModal = ({ authType, type, circleName }) => {
     setLoginOpen(true);
   };
 
+  const switchToJoin = () => {
+    setLoginOpen(false);
+    setJoinOpen(true);
+  };
+
   return (
     <section>
       {authType === "login" && (
@@ -91,7 +96,12 @@ const AuthModal = ({ authType, type, circleName }) => {
           open={loginOpen}
           size="md"
         >
-          <Login toggleClose={closeLogin} toggleSignup={switchToSignup} />
+          <Login
+            toggleClose={closeLogin}
+            toggleSignup={switchToSignup}
+            toggleJoin={switchToJoin}
+            type={type}
+          />
         </Drawer>
         <Drawer
           anchor="bottom"
@@ -107,7 +117,7 @@ const AuthModal = ({ authType, type, circleName }) => {
           open={joinOpen}
           size="lg"
         >
-          <JoinCircle circleName={circleName} />
+          <JoinCircle circleName={circleName} type="join" isMember={isMember} />
         </Drawer>
       </section>
     </section>

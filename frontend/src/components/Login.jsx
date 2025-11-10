@@ -1,5 +1,11 @@
 import { useState } from "react";
-import { Box, Button, FormControl, FormLabel, Input, Stack } from "@mui/joy";
+import Box from "@mui/joy/Box";
+import Button from "@mui/joy/Button";
+import FormControl from "@mui/joy/FormControl";
+import FormLabel from "@mui/joy/FormLabel";
+import Input from "@mui/joy/Input";
+import Stack from "@mui/joy/Stack";
+import { useNavigate } from "react-router-dom";
 import { useUser } from "../hooks/useUser";
 
 const Login = (props) => {
@@ -7,6 +13,8 @@ const Login = (props) => {
   const [email, setEmail] = useState("");
   const [pwd, setPwd] = useState("");
   const [_pwdFocus, setPwdFocus] = useState(false);
+
+  const navigate = useNavigate();
 
   async function handleLogin(formData) {
     try {
@@ -28,6 +36,8 @@ const Login = (props) => {
         login(result.user.users_id);
 
         props.toggleClose();
+        if (props.type === "join") props.toggleJoin();
+        else navigate("/feed");
       }
 
       resetForm();

@@ -60,6 +60,11 @@ export default function CirclePage() {
     setUserTier(chosenTier);
   };
 
+  const cancelMembership = () => {
+    setIsMember(false);
+    setUserTier(null);
+  };
+
   const shouldBlur = (postTier, userTier) => {
     if (!userTier) return false;
     const tierHierarchy = { Bronze: 1, Silver: 2, Gold: 3 };
@@ -77,13 +82,30 @@ export default function CirclePage() {
           In the circle: {circleMembers} members
         </p>
         <p className="text-base text-(--orange-white) py-6">{circleBio}</p>
-        {!isMember && (
+        {!isMember ? (
           <div className="flex flex-col items-center bg-(--purple-white) py-8 px-6 rounded-lg shadow-md">
             <h2 className="text-lg text-(--purple-dark) pb-6">
               Become a part of {circleName} circle to access the exclusive
               content
             </h2>
-            <AuthModal circleName={circleName} type="join" handleJoin={handleMembership} />
+            <AuthModal
+              circleName={circleName}
+              type="join"
+              handleJoin={handleMembership}
+              isMember={isMember}
+            />
+          </div>
+        ) : (
+          <div className="flex flex-col items-center bg-(--purple-white) py-8 px-6 rounded-lg shadow-md">
+            <h2 className="text-lg text-(--purple-dark) pb-6">
+              You are a member of {circleName} circle
+            </h2>
+            <h3 className="text-base text-(--orange-dark)">{userTier} tier</h3>
+            <AuthModal
+              circleName={circleName}
+              type="manage"
+              handleCancel={cancelMembership}
+            />
           </div>
         )}
       </section>
