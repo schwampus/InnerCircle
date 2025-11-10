@@ -4,7 +4,16 @@ import Signup from "../components/Signup";
 import Login from "../components/Login";
 import JoinCircle from "./JoinCircle";
 
-const AuthModal = ({ authType, type, circleName, isMember }) => {
+const AuthModal = ({
+  modalType,
+  circleName,
+  circleId,
+  userId,
+  userTier,
+  ucId,
+  handleJoin,
+  handleCancel,
+}) => {
   const [loginOpen, setLoginOpen] = useState(false);
   const [signUpOpen, setSignupOpen] = useState(false);
   const [joinOpen, setJoinOpen] = useState(false);
@@ -62,7 +71,7 @@ const AuthModal = ({ authType, type, circleName, isMember }) => {
 
   return (
     <section>
-      {authType === "login" && (
+      {modalType === "login" && (
         <Button
           onClick={toggleLoginDrawer(true)}
           variant="outlined"
@@ -71,7 +80,7 @@ const AuthModal = ({ authType, type, circleName, isMember }) => {
           LOG IN
         </Button>
       )}
-      {authType === "signup" && (
+      {modalType === "signup" && (
         <Button
           onClick={toggleSignupDrawer(true)}
           variant="solid"
@@ -80,13 +89,22 @@ const AuthModal = ({ authType, type, circleName, isMember }) => {
           SIGN UP
         </Button>
       )}
-      {type === "join" && (
+      {modalType === "join" && (
         <Button
-          onClick={toggleSignupDrawer(true)}
+          onClick={userId ? toggleJoinDrawer(true) : toggleSignupDrawer(true)}
           variant="solid"
           color="secondary"
         >
           STEP INSIDE
+        </Button>
+      )}
+      {modalType === "manage" && (
+        <Button
+          onClick={toggleJoinDrawer(true)}
+          variant="outlined"
+          color="primary"
+        >
+          MANAGE MEMBERSHIP
         </Button>
       )}
       <section>
@@ -100,7 +118,7 @@ const AuthModal = ({ authType, type, circleName, isMember }) => {
             toggleClose={closeLogin}
             toggleSignup={switchToSignup}
             toggleJoin={switchToJoin}
-            type={type}
+            modalType={modalType}
           />
         </Drawer>
         <Drawer
@@ -115,9 +133,18 @@ const AuthModal = ({ authType, type, circleName, isMember }) => {
           anchor="bottom"
           onClose={toggleJoinDrawer(false)}
           open={joinOpen}
-          size="lg"
+          size={modalType === "join" ? "lg" : "sm"}
         >
-          <JoinCircle circleName={circleName} type="join" isMember={isMember} />
+          <JoinCircle
+            circleName={circleName}
+            circleId={circleId}
+            modalType={modalType}
+            handleMembership={handleJoin}
+            cancelMembership={handleCancel}
+            userId={userId}
+            userTier={userTier}
+            ucId={ucId}
+          />
         </Drawer>
       </section>
     </section>

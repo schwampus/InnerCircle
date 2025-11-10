@@ -19,6 +19,7 @@ export default function CirclePage() {
   const [circlePosts, setCirclePosts] = useState([]);
   const [isMember, setIsMember] = useState(false);
   const [userTier, setUserTier] = useState(null);
+  const [userCircleId, setUserCircleId] = useState(null);
   const { userId } = useUser();
 
   useEffect(() => {
@@ -42,6 +43,7 @@ export default function CirclePage() {
         if (circleMember) {
           setIsMember(true);
           setUserTier(circleMember.uc_circle_tier);
+          setUserCircleId(circleMember.uc_id);
         }
       });
   }, [circleId, userId]);
@@ -55,14 +57,16 @@ export default function CirclePage() {
       });
   }, [circleId]);
 
-  const handleMembership = (chosenTier) => {
+  const handleMembership = (chosenTier, ucId) => {
     setIsMember(true);
     setUserTier(chosenTier);
+    setUserCircleId(ucId);
   };
 
   const cancelMembership = () => {
     setIsMember(false);
     setUserTier(null);
+    setUserCircleId(null); 
   };
 
   const shouldBlur = (postTier, userTier) => {
@@ -90,21 +94,25 @@ export default function CirclePage() {
             </h2>
             <AuthModal
               circleName={circleName}
-              type="join"
+              circleId={circleId}
+              modalType="join"
               handleJoin={handleMembership}
-              isMember={isMember}
+              userId={userId}
             />
           </div>
         ) : (
           <div className="flex flex-col items-center bg-(--purple-white) py-8 px-6 rounded-lg shadow-md">
-            <h2 className="text-lg text-(--purple-dark) pb-6">
+            <h2 className="text-lg text-(--purple-dark)">
               You are a member of {circleName} circle
             </h2>
-            <h3 className="text-base text-(--orange-dark)">{userTier} tier</h3>
+            <h3 className="text-xl font-bold text-(--orange-darker) pb-3">{userTier} tier</h3>
             <AuthModal
               circleName={circleName}
-              type="manage"
+              modalType="manage"
               handleCancel={cancelMembership}
+              ucId={userCircleId}
+              userId={userId}
+              userTier={userTier}
             />
           </div>
         )}
