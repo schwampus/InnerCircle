@@ -10,7 +10,7 @@ import AuthModal from "../components/AuthModal";
 // URL: /circle/123/athletes-united
 
 export default function CirclePage() {
-  //   const { circleId, _circleSlug } = useParams;
+  //   const { circleId, _circleSlug } = useParams();
   const circleId = 5;
   const [circleName, setCircleName] = useState("Candide Thovex");
   const [circleAvatar, setCircleAvatar] = useState(null);
