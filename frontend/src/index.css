@@ -59,7 +59,17 @@
 	border-style: solid;
 }
 
+.profile-label {
+	color: var(--purple-main);
+	font-family: kanit;
+	font-weight: 600;
+}
+
 #profile-hero {
 	background-color: var(--purple-main);
 	min-height: 300px;
+}
+
+.AccordionSummary-button {
+	color: var(--orange-main) !important;
 }

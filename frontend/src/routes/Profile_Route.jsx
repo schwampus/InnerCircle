@@ -20,6 +20,8 @@ export default function Profile() {
 	const [newPaymentMethod, setNewPaymentMethod] = useState("");
 	const [hasChanges, setHasChanges] = useState(false);
 
+	const [myCircles, setMyCircles] = useState("");
+
 	useEffect(() => {
 		fetch(`/api/users/${userId}`)
 			.then((response) => response.json())
@@ -31,6 +33,12 @@ export default function Profile() {
 			})
 			.catch((error) => {
 				console.error("Error fetching user data:", error);
+			});
+
+		fetch(`/api/user-circles/${userId}`)
+			.then((response) => response.json())
+			.then((data) => {
+				setMyCircles(data);
 			});
 	}, []);
 
@@ -114,10 +122,25 @@ export default function Profile() {
 
 				<div className="flex justify-center items-center bg-(--purple-lighter) w-full p-8 ">
 					{userData && (
-						<AccordionGroup className="bg-(--orange-lighter) max-w-75 ">
-							<Accordion>
-								<AccordionSummary>Change Personal Details</AccordionSummary>
+						<AccordionGroup className="bg-(--purple-dark) max-w-75 ">
+							<Accordion
+								sx={{
+									"&.Mui-expanded": {
+										backgroundColor: "var(--orange-main)",
+										color: "var(--orange-lighter)",
+									},
+								}}
+							>
+								<AccordionSummary
+									sx={{
+										color: "var(--orange-main)",
+										backgroundColor: "var(--purple-dark)",
+									}}
+								>
+									Change Personal Details
+								</AccordionSummary>
 								<AccordionDetails>
+									<label className="profile-label">Change your name:</label>
 									<input
 										className="profile-input"
 										placeholder={userData?.users_name}
@@ -126,6 +149,7 @@ export default function Profile() {
 									/>
 								</AccordionDetails>
 								<AccordionDetails>
+									<label className="profile-label">Change you email:</label>
 									<input
 										className="profile-input"
 										placeholder={userData?.users_email}
@@ -134,9 +158,24 @@ export default function Profile() {
 									/>
 								</AccordionDetails>
 							</Accordion>
-							<Accordion>
-								<AccordionSummary>Change Payment Method</AccordionSummary>
+							<Accordion
+								sx={{
+									"&.Mui-expanded": {
+										backgroundColor: "var(--orange-main)",
+										color: "var(--orange-lighter)",
+									},
+								}}
+							>
+								<AccordionSummary
+									sx={{
+										color: "var(--orange-main)",
+										backgroundColor: "var(--purple-dark)",
+									}}
+								>
+									Change Payment Method
+								</AccordionSummary>
 								<AccordionDetails>
+									<label className="profile-label">Change you email:</label>
 									<select
 										className="profile-input"
 										value={newPaymentMethod}
@@ -169,14 +208,16 @@ export default function Profile() {
 						YOUR CIRCLES
 					</h1>
 					<div className="flex flex-wrap justify-center gap-8 px-4 sm:px-20 ">
-						<Avatar tierColor="gold" />
-						<Avatar tierColor="silver" />
-						<Avatar tierColor="bronze" />
-						<Avatar />
-						<Avatar />
-						<Avatar />
-						<Avatar tierColor="gold" />
-						<Avatar />
+						{myCircles &&
+							myCircles.map((item) => {
+								return (
+									<Avatar
+										tierColor={item.uc_circle_tier}
+										src={item.circle_avatar}
+										name={item.circle_name}
+									/>
+								);
+							})}
 					</div>
 				</div>
 			</div>
