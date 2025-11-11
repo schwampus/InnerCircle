@@ -10,18 +10,16 @@ import AuthModal from "../components/AuthModal";
 // URL: /circle/123/athletes-united
 
 export default function CirclePage() {
-	const { circleId, _circleSlug } = useParams();
-
-	//const circleId = 5;
-	const [circleName, setCircleName] = useState("");
-	const [circleAvatar, setCircleAvatar] = useState(null);
-	const [circleBio, setCircleBio] = useState("");
-	const [circleMembers, setCircleMembers] = useState("");
-	const [circlePosts, setCirclePosts] = useState([]);
-	const [isMember, setIsMember] = useState(false);
-	const [userTier, setUserTier] = useState(null);
-	const [userCircleId, setUserCircleId] = useState(null);
-	const { userId } = useUser();
+  //   const { circleId, _circleSlug } = useParams();
+  const circleId = 5;
+  const [circleName, setCircleName] = useState("Candide Thovex");
+  const [circleAvatar, setCircleAvatar] = useState(null);
+  const [circleBio, setCircleBio] = useState("");
+  const [circleMembers, setCircleMembers] = useState("");
+  const [circlePosts, setCirclePosts] = useState([]);
+  const [isMember, setIsMember] = useState(false);
+  const [userTier, setUserTier] = useState(null);
+  const { userId } = useUser();
 
 	useEffect(() => {
 		fetch(`/api/circles/${circleId}`)
