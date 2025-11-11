@@ -3,11 +3,11 @@ GET http://localhost:3000
 
 ###
 GET http://localhost:3000/api/categories
-GET http://localhost:3000/api/categories
+
 
 ###
 POST http://localhost:3000/api/signup
-POST http://localhost:3000/api/signup
+
 Content-Type: application/json
 
 {
@@ -18,13 +18,13 @@ Content-Type: application/json
 
 ###
 GET http://localhost:3000/api/posts
-GET http://localhost:3000/api/posts
+
 
 ### specific post
 GET http://localhost:3000/api/posts/112
 
 ### athletes in category
-GET http://localhost:3000/api/categories/Snow
+
 GET http://localhost:3000/api/categories/Snow
 
 ### athlete profile details
@@ -41,30 +41,30 @@ GET http://localhost:3000/api/user-circles/5358b4b4-da7e-41e6-b6c1-d6c50bb3dc04
 
 ### feed for the user
 GET http://localhost:3000/api/user-circles/feed/ab71881f-dc4f-4481-a689-55e506679a5e
-GET http://localhost:3000/api/user-circles/feed/ab71881f-dc4f-4481-a689-55e506679a5e
+
 
 
 ### joining a circle
-POST http://localhost:3000/api/user-circles/
+
 POST http://localhost:3000/api/user-circles/
 Content-Type: application/json
 
 {
     "userId": "5358b4b4-da7e-41e6-b6c1-d6c50bb3dc04",
-    "circleId": "5",
+    "circleId": "15",
     "circleTier": "Silver"
 }
 
 ### leaving a circle
-DELETE http://localhost:3000/api/user-circles/8
+
 DELETE http://localhost:3000/api/user-circles/8
 
 ### show all users
-GET http://localhost:3000/api/users/
+
 GET http://localhost:3000/api/users/
 
 ### show user
-GET http://localhost:3000/api/users/ab71881f-dc4f-4481-a689-55e506679a5e
+GET http://localhost:3000/api/users/5358b4b4-da7e-41e6-b6c1-d6c50bb3dc04
 
 ### edit user
 PATCH http://localhost:3000/api/users/5358b4b4-da7e-41e6-b6c1-d6c50bb3dc04
@@ -77,8 +77,8 @@ Content-Type: application/json
 
 }
 
-### edit user avatar
-PATCH http://localhost:3000/api/users/e92d107d-69d9-4ec1-9d1a-90daa9a5c41a
+### 
+PATCH http://localhost:3000/users/e92d107d-69d9-4ec1-9d1a-90daa9a5c41a
 Content-Type: application/json
 
 {
@@ -86,6 +86,5 @@ Content-Type: application/json
 }
 
 ### deleting a profile
-DELETE http://localhost:3000/api/users/a59b9292-8cf4-4dc2-b550-9ee89e9a3d2b
 DELETE http://localhost:3000/api/users/a59b9292-8cf4-4dc2-b550-9ee89e9a3d2b
 
