@@ -99,7 +99,7 @@ export default function Header() {
             </p>
           </Drawer>
         </div>
-        {!userId && <AuthModal authType={"login"} />}
+        {!userId && <AuthModal modalType={"login"} />}
       </div>
     </>
   );

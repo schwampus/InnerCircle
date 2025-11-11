@@ -21,6 +21,7 @@ router.get('/:category_name', async (req, res, next) => {
    SELECT 
    cat.category_name, 
    c.circle_id, 
+   c.circle_slug,
    c.circle_name, 
    c.circle_avatar 
    FROM category cat 

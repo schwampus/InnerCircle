@@ -44,7 +44,7 @@ router.get('/recent-posts/:circle_id', async (req, res, next) => {
 
 router.get('/all/:circle_id', async (req, res, next) => {
   try {
-    const result = await db.query('SELECT * FROM post WHERE post_author = $1', [req.params.circle_id])
+    const result = await db.query('SELECT * FROM post WHERE post_author = $1 ORDER BY post_date DESC', [req.params.circle_id])
     res.send(result.rows)
   } catch (err) {
     console.error('Error fetching circle posts', err)
