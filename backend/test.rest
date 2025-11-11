@@ -44,10 +44,9 @@ POST http://localhost:3000/api/user-circles/
 Content-Type: application/json
 
 {
-    "userId": "17129ae3-ba35-4b3f-bdc2-5083c09d868d",
-    "circleId": "12",
-    "circleTier": "Bronze",
-    "paymentMethod": "Card"
+    "userId": "5358b4b4-da7e-41e6-b6c1-d6c50bb3dc04",
+    "circleId": "5",
+    "circleTier": "Silver"
 }
 
 ### leaving a circle
@@ -57,14 +56,17 @@ DELETE http://localhost:3000/api/user-circles/8
 GET http://localhost:3000/api/users/
 
 ### show user
-GET http://localhost:3000/api/users/e92d107d-69d9-4ec1-9d1a-90daa9a5c41a
+GET http://localhost:3000/api/users/5358b4b4-da7e-41e6-b6c1-d6c50bb3dc04
 
 ### edit user
-PATCH http://localhost:3000/api/users/e92d107d-69d9-4ec1-9d1a-90daa9a5c41a
+PATCH http://localhost:3000/api/users/5358b4b4-da7e-41e6-b6c1-d6c50bb3dc04
 Content-Type: application/json
 
 {
-    "userEmail": "cococo@example.com"
+    "userEmail": "calle@123.se",
+    "userName": "CocoCalle",
+    "userPayment": "visa"
+
 }
 
 ### edit user avatar
