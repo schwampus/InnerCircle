@@ -140,7 +140,7 @@ export default function CirclePage() {
                 title={p.post_title}
                 text={p.post_text}
                 tier={p.post_tier}
-                imgsrc={p.circle_avatar}
+                imgsrc={circleAvatar}
                 blur={blurred}
                 {...mediaProps}
               />
