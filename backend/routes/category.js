@@ -11,7 +11,7 @@ router.get('/', async (req, res, next) => {
     console.error('Error fetching categories', err)
     res.status(500).json({
       error: 'Failed to fetch categories',
-      message: error.message
+      message: err.message
     })
   }
 })
@@ -21,6 +21,7 @@ router.get('/:category_name', async (req, res, next) => {
    SELECT 
    cat.category_name, 
    c.circle_id, 
+   c.circle_slug,
    c.circle_name, 
    c.circle_avatar 
    FROM category cat 

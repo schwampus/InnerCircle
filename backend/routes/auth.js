@@ -39,8 +39,8 @@ router.post('/signup', async (req, res) => {
         const hashedPassword = await hashPassword(password);
 
         const result = await db.query(
-            'INSERT INTO users (users_name, users_email, users_pass) VALUES($1, $2, $3) RETURNING users_id, users_name, users_email',
-            [userName, email, hashedPassword]
+            'INSERT INTO users (users_name, users_email, users_pass, users_payment) VALUES($1, $2, $3, $4) RETURNING users_id, users_name, users_email',
+            [userName, email, hashedPassword, 'VISA']
         );
 
         res.status(201).json({

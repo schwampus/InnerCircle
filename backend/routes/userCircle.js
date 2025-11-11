@@ -68,10 +68,10 @@ router.get('/feed/:users_id', async (req, res, next) => {
 })
 
 router.post('/', async (req, res) => {
-  const { userId, circleId, circleTier, paymentMethod } = req.body;
+  const { userId, circleId, circleTier } = req.body;
 
-  if (!circleTier || !paymentMethod) {
-    return res.status(400).json({ error: 'Please select the tier and/or payment method' });
+  if (!circleTier) {
+    return res.status(400).json({ error: 'Please select the tier.' });
   }
 
   if (!userId) {
@@ -84,8 +84,8 @@ router.post('/', async (req, res) => {
 
   try {
     const result = await db.query(
-      'INSERT INTO userCircle (uc_user_id, uc_circle_id, uc_circle_tier, uc_circle_payment_method) VALUES($1, $2, $3, $4) RETURNING uc_id',
-      [userId, circleId, circleTier, paymentMethod]
+      'INSERT INTO userCircle (uc_user_id, uc_circle_id, uc_circle_tier) VALUES($1, $2, $3) RETURNING uc_id',
+      [userId, circleId, circleTier]
     );
 
     res.status(201).json({
