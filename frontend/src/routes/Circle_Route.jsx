@@ -136,19 +136,19 @@ export default function CirclePage() {
 
 						let blurred = shouldBlur(p.post_tier, userTier);
 
-						return (
-							<Post
-								key={p.post_id}
-								title={p.post_title}
-								text={p.post_text}
-								tier={p.post_tier}
-								imgsrc={p.circle_avatar}
-								blur={blurred}
-								{...mediaProps}
-							/>
-						);
-					})}
-			</section>
-		</article>
-	);
+            return (
+              <Post
+                key={p.post_id}
+                title={p.post_title}
+                text={p.post_text}
+                tier={p.post_tier}
+                imgsrc={circleAvatar}
+                blur={blurred}
+                {...mediaProps}
+              />
+            );
+          })}
+      </section>
+    </article>
+  );
 }
