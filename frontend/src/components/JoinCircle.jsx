@@ -1,9 +1,17 @@
 import { useState } from "react";
 import Button from "@mui/joy/Button";
 import Box from "@mui/joy/Box";
+import Divider from "@mui/joy/Divider";
+import DialogTitle from "@mui/joy/DialogTitle";
+import DialogContent from "@mui/joy/DialogContent";
+import DialogActions from "@mui/joy/DialogActions";
+import Modal from "@mui/joy/Modal";
+import ModalDialog from "@mui/joy/ModalDialog";
+import WarningRoundedIcon from "@mui/icons-material/WarningRounded";
 
 function JoinCircle(props) {
   const [chosenTier, setChosenTier] = useState(null);
+  const [open, setOpen] = useState(false);
 
   const handleJoin = async () => {
     if (chosenTier) {
@@ -44,6 +52,7 @@ function JoinCircle(props) {
       }
 
       props.cancelMembership(true);
+      setOpen(false);
     } catch (error) {
       console.error("Error canceling membership:", error);
     }
@@ -75,7 +84,7 @@ function JoinCircle(props) {
         py: 6,
         display: "flex",
         flexDirection: "column",
-        alignItems: "center"
+        alignItems: "center",
       }}
     >
       <h2 style={{ fontSize: "1.5rem", textAlign: "center" }}>
@@ -98,11 +107,35 @@ function JoinCircle(props) {
         type="submit"
         color="danger"
         variant="solid"
-        onClick={handleCancel}
+        onClick={() => setOpen(true)}
         sx={{ mt: 3, py: 2 }}
       >
         Cancel membership
       </Button>
+      <Modal open={open} onClose={() => setOpen(false)}>
+        <ModalDialog variant="outlined" role="alertdialog">
+          <DialogTitle>
+            <WarningRoundedIcon />
+            Confirmation
+          </DialogTitle>
+          <Divider />
+          <DialogContent>
+            Are you sure you want to leave {props.circleName}'s circle?
+          </DialogContent>
+          <DialogActions>
+            <Button variant="solid" color="danger" onClick={handleCancel}>
+              Leave circle
+            </Button>
+            <Button
+              variant="plain"
+              color="neutral"
+              onClick={() => setOpen(false)}
+            >
+              Cancel
+            </Button>
+          </DialogActions>
+        </ModalDialog>
+      </Modal>
     </Box>
   ) : (
     <Box
