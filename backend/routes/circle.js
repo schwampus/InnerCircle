@@ -6,7 +6,7 @@ const router = express.Router();
 //only circle details
 router.get('/:circle_id', async (req, res, next) => {
   try {
-    const result = await db.query('SELECT circle_id, circle_name, circle_avatar, circle_bio FROM circle WHERE circle_id = $1', [req.params.circle_id])
+    const result = await db.query('SELECT circle_id, circle_name, circle_avatar, circle_bio, circle_members FROM circle WHERE circle_id = $1', [req.params.circle_id])
     res.send(result.rows)
   } catch (err) {
     console.error('Error fetching circle details', err)

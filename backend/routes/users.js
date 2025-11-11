@@ -30,7 +30,7 @@ router.get('/:users_id', async (req, res) => {
 });
 
 router.patch('/:users_id', async (req, res) => {
-  const { userName, userEmail, userAvatar } = req.body;
+  const { userName, userEmail, userAvatar, userPayment } = req.body;
 
   try {
     let query;
@@ -45,6 +45,9 @@ router.patch('/:users_id', async (req, res) => {
     } else if (userAvatar) {
       query = 'UPDATE users SET users_avatar = $1 WHERE users_id = $2';
       value = userAvatar;
+    } else if (userPayment) {
+      query = 'UPDATE users SET users_payment = $1 WHERE users_id = $2';
+      value = userPayment;
     } else {
       return res.status(400).json({ error: 'No valid field provided for update' });
     }

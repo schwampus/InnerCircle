@@ -18,10 +18,10 @@ export default function Home() {
     flex flex-col justify-center items-center text-center
     overflow-hidden"
         >
-          <h1 className="text-6xl  font-climate text-(--orange-main) ">
+          <h1 className="text-6xl font-climate text-(--orange-main) ">
             INNER
           </h1>
-          <h1 className="text-6xl  font-climate text-(--purple-main) ">
+          <h1 className="text-6xl font-climate text-(--purple-main) ">
             CIRCLE
           </h1>
         </div>
@@ -29,12 +29,13 @@ export default function Home() {
           <Button variant="solid" color="secondary">
             <Link to="/categories">EXPLORE CIRCLES</Link>
           </Button>
-          {!userId && <AuthModal authType={"signup"} />}
+          {!userId && <AuthModal modalType={"signup"} />}
         </div>
         <div className="bg-(--purple-dark) w-full h-64 text-(--orange-main) px-8 py-10">
           <h2 className="font-[400] text-2xl px-8">
             be first to know about your idols upcoming adventures ❤️‍🔥
           </h2>
+          <h3><Link to="circle/26/candide">Join circle</Link></h3>
           {/* <img src="" alt="" /> TODO: BLUR UNBLUR POST GIF */}
         </div>
       </div>
