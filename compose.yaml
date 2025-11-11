@@ -5,21 +5,29 @@ services:
         database:
           condition: service_healthy
       environment:
-        - PGURI=postgres://postgres:secret@database/postgres
+        - PGURI=postgres://postgres:secret@database/innercircle
       ports:
         - "3000:3000"
   database:
       environment:
         - POSTGRES_PASSWORD=secret
+        - POSTGRES_DB=innercircle
       healthcheck:
-        interval: 1s
-        test: 'pg_isready --username=postgres'
+        interval: 2s
+        retries: 30
+        timeout: 5s
+        test: 'pg_isready --username=postgres --dbname=innercircle'
       image: postgres
       volumes:
         - ./data:/var/lib/postgresql/
   frontend:
-      build: frontend
+      build: 
+        context: frontend
+        args:
+          ENV: dev  # dev for localhost, prod for server
       ports:
         - "80:80"
       depends_on:
         - backend
+      volumes:
+        - ./uploads:/usr/share/nginx/html/images
