@@ -13,6 +13,7 @@ const AuthModal = ({
   ucId,
   handleJoin,
   handleCancel,
+  buttonText,
 }) => {
   const [loginOpen, setLoginOpen] = useState(false);
   const [signUpOpen, setSignupOpen] = useState(false);
@@ -95,7 +96,7 @@ const AuthModal = ({
           variant="solid"
           color="secondary"
         >
-          STEP INSIDE
+          {buttonText ? buttonText : "STEP INSIDE"}
         </Button>
       )}
       {modalType === "manage" && (

@@ -32,10 +32,9 @@ export default function Home() {
           {!userId && <AuthModal modalType={"signup"} />}
         </div>
         <div className="bg-(--purple-dark) w-full h-64 text-(--orange-main) px-8 py-10">
-          <h2 className="font-[400] text-2xl px-8">
-            be first to know about your idols upcoming adventures ❤️‍🔥
+          <h2 className="font-[400] text-2xl text-center px-8">
+            Be first to know about your idols upcoming adventures ❤️‍🔥
           </h2>
-          <h3><Link to="circle/26/candide">Join circle</Link></h3>
           {/* <img src="" alt="" /> TODO: BLUR UNBLUR POST GIF */}
         </div>
       </div>

@@ -27,12 +27,8 @@ const Login = (props) => {
       });
 
       const result = await response.json();
-      console.log("Response:", result);
 
       if (result.user) {
-        console.log("Success:", result);
-        localStorage.setItem("userId", result.user.users_id);
-        console.log(result.user.users_id);
         login(result.user.users_id);
 
         props.toggleClose();

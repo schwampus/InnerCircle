@@ -2,8 +2,6 @@ import { Routes, Route } from "react-router-dom";
 import Header from "./components/Header.jsx";
 import Footer from "./components/Footer.jsx";
 import Home from "./routes/Home_Route";
-import Login from "./components/Login";
-import Signup from "./components/Signup";
 import About from "./routes/About_Route";
 import Faq from "./routes/FAQ_Route.jsx";
 import Profile from "./routes/Profile_Route";
