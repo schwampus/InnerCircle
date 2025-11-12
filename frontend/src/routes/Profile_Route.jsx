@@ -299,14 +299,19 @@ export default function Profile() {
 					</h1>
 					<div className="flex flex-wrap justify-center gap-8 px-4 sm:px-20 ">
 						{myCircles && myCircles.length > 0 ? (
-							myCircles.map((item) => {
+							myCircles.map((athlete) => {
 								return (
-									<Avatar
-										tierColor={item.uc_circle_tier}
-										src={item.circle_avatar}
-										name={item.circle_name}
-										key={item.uc_id}
-									/>
+									<Link
+										key={athlete.name}
+										to={`/circle/${athlete.circle_id}/${athlete.circle_slug}`}
+									>
+										<Avatar
+											tierColor={athlete.uc_circle_tier}
+											src={athlete.circle_avatar}
+											name={athlete.circle_name}
+											key={athlete.uc_id}
+										/>
+									</Link>
 								);
 							})
 						) : (

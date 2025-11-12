@@ -10,9 +10,10 @@ import AuthModal from "../components/AuthModal";
 // URL: /circle/123/athletes-united
 
 export default function CirclePage() {
-	//   const { circleId, _circleSlug } = useParams;
-	const circleId = 5;
-	const [circleName, setCircleName] = useState("Candide Thovex");
+	const { circleId, _circleSlug } = useParams();
+
+	//const circleId = 5;
+	const [circleName, setCircleName] = useState("");
 	const [circleAvatar, setCircleAvatar] = useState(null);
 	const [circleBio, setCircleBio] = useState("");
 	const [circleMembers, setCircleMembers] = useState("");
@@ -136,19 +137,19 @@ export default function CirclePage() {
 
 						let blurred = shouldBlur(p.post_tier, userTier);
 
-            return (
-              <Post
-                key={p.post_id}
-                title={p.post_title}
-                text={p.post_text}
-                tier={p.post_tier}
-                imgsrc={circleAvatar}
-                blur={blurred}
-                {...mediaProps}
-              />
-            );
-          })}
-      </section>
-    </article>
-  );
+						return (
+							<Post
+								key={p.post_id}
+								title={p.post_title}
+								text={p.post_text}
+								tier={p.post_tier}
+								imgsrc={circleAvatar}
+								blur={blurred}
+								{...mediaProps}
+							/>
+						);
+					})}
+			</section>
+		</article>
+	);
 }

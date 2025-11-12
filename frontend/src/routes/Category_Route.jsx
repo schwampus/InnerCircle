@@ -40,20 +40,26 @@ export default function Category() {
 					{circles && circles.length > 0 ? (
 						circles.map((athlete) => {
 							return (
-								<div
-									key={athlete.circle_name}
-									className="relative w-64 h-64 mx-auto mb-4"
+								<Link
+									key={athlete.name}
+									to={`/circle/${athlete.circle_id}/${athlete.circle_slug}`}
 								>
-									<Avatar
-										src={athlete.circle_avatar}
-										name={athlete.circle_name}
-										className="w-full h-full rounded-full object-cover drop-shadow-[1px_5px_4px_var(--purple-dark)]"
-										alt={athlete.circle_name}
-									/>
-									<h2 className="absolute inset-0 flex items-center justify-center  font-bold font-kanit text-(--orange-main) text-2xl z-10 drop-shadow-[1px_5px_4px_var(--purple-dark)]">
-										{athlete.circle_name}
-									</h2>
-								</div>
+									<div
+										key={athlete.circle_name}
+										className=" flex flex-col justify-center items-center w-64 h-64 mx-auto mb-4"
+									>
+										<Avatar
+											src={athlete.circle_avatar}
+											name={athlete.circle_name}
+											//className=" rounded-full object-cover drop-shadow-[1px_5px_4px_var(--purple-dark)]"
+											alt={athlete.circle_name}
+											variant="large"
+										/>
+										<h2 className="  font-bold font-kanit text-(--orange-main) text-2xl z-10 drop-shadow-[1px_5px_4px_var(--purple-dark)]">
+											{athlete.circle_name}
+										</h2>
+									</div>
+								</Link>
 							);
 						})
 					) : (
