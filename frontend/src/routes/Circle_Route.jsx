@@ -132,9 +132,11 @@ export default function CirclePage() {
             let blurred = shouldBlur(p.post_tier, userTier);
 
             return (
-              <section className="flex flex-col justify-center items-center px-4">
+              <section
+                key={p.post_id}
+                className="flex flex-col justify-center items-center px-4"
+              >
                 <Post
-                  key={p.post_id}
                   title={p.post_title}
                   text={p.post_text}
                   tier={p.post_tier}
