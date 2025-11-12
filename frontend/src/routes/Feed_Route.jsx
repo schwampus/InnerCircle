@@ -17,8 +17,7 @@ export default function Feed() {
           setCircles(result);
         });
     } else {
-      //TODO: fetch posts and display blurred
-      fetch('/api/posts/')
+      fetch("/api/posts/")
         .then((response) => response.json())
         .then((result) => {
           console.log(result);
@@ -30,11 +29,7 @@ export default function Feed() {
   return (
     <>
       <div className="wrapper min-h-svh">
-        <h1 className="text-3xl text-center font-black font-kanit py-8">
-          WHO'S UP TO WHAT?
-        </h1>
-
-        {circles.length < 1 ? (
+        {!userId && (
           <section className="flex flex-col items-center justify-center gap-6 w-[20rem] h-[20rem] rounded-full bg-(--purple-dark) px-4 my-10 mx-auto">
             <h2 className="font-semi-bold text-2xl text-center text-(--orange-main)">
               You aren't in a circle yet. Enter now?
@@ -43,35 +38,39 @@ export default function Feed() {
               Explore the circles
             </Button>
           </section>
-        ) : (
-          <div className="flex flex-col bg-(--purple-dark) text-(--orange-main) px-4 py-10">
-            {circles.map((p) => {
-              const mediaProps = {};
-              let blurred = false
-              if (p.post_content) {
-                if (p.post_content.includes("image")) {
-                  mediaProps.postimg = p.post_content;
-                } else {
-                  mediaProps.video = p.post_content;
-                }
-              }
-
-              if(!userId) blurred = true
-
-              return (
-                <Post
-                  key={p.post_id}
-                  title={p.post_title}
-                  text={p.post_text}
-                  tier={p.post_tier}
-                  imgsrc={p.circle_avatar}
-                  {...mediaProps}
-                  blur={blurred}
-                />
-              );
-            })}
-          </div>
         )}
+        <h1 className="text-3xl text-center font-black font-kanit py-8">
+          WHO'S UP TO WHAT?
+        </h1>
+        <div className="flex flex-col items-center bg-(--purple-dark) text-(--orange-main) px-4 py-10">
+          {circles.map((p) => {
+            const mediaProps = {};
+            let blurred = false;
+            if (p.post_content) {
+              if (p.post_content.includes("image")) {
+                mediaProps.postimg = p.post_content;
+              } else {
+                mediaProps.video = p.post_content;
+              }
+            }
+
+            if (!userId) blurred = true;
+
+            return (
+              <Post
+                key={p.post_id}
+                title={p.post_title}
+                text={p.post_text}
+                tier={p.post_tier}
+                imgsrc={p.circle_avatar}
+                {...mediaProps}
+                blur={blurred}
+                slug={p.circle_slug}
+                circleId={p.circle_id}
+              />
+            );
+          })}
+        </div>
       </div>
     </>
   );
