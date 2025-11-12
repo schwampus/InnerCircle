@@ -1,6 +1,16 @@
 import Avatar from "./Avatar.jsx";
 
 export default function Post(props) {
+  let textWrap = ""
+  if(!props.video && !props.postimg){
+    textWrap = "mt-8"
+  }
+
+  let lockedPost
+  if (props.blur) {
+    lockedPost = "blur-lg"
+  }
+
   return (
     <div
       id="post-wrapper"
@@ -15,7 +25,7 @@ export default function Post(props) {
 
       <div
         id="post-content"
-        className=" bg-(--orange-lighter)  rounded-md mt-[-60px] relative z-10"
+        className={`bg-(--orange-lighter)  rounded-md mt-[-60px] relative z-10 ${lockedPost}`}
       >
         {props.video ? (
           <iframe
@@ -31,8 +41,8 @@ export default function Post(props) {
           <img src={props.postimg} />
         )}
       </div>
-      <h3>{props.title}</h3>
-      <p>{props.text}</p>
+      <h3 className={`text-semibold text-xl pt-4 pb-2 ${textWrap}`}>{props.title}</h3>
+      <p className="text-(--orange-white) py-2">{props.text}</p>
       <button className="self-end mr-[-12px]  bg-(--purple-darker) text-(--orange-main) rounded-md px-4 py-2  hover:bg-(--purple-darker)">
         {" "}
         TO POST{" "}

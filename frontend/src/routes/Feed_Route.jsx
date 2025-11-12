@@ -2,12 +2,11 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Button } from "@mui/joy";
 import Post from "../components/Post.jsx";
+import { useUser } from "../hooks/useUser.js";
 
 export default function Feed() {
   const [circles, setCircles] = useState([]);
-  const userId = "ab71881f-dc4f-4481-a689-55e506679a5e";
-  // const userId = '';
-  // const { userId } = useUser();
+  const { userId } = useUser();
 
   useEffect(() => {
     if (userId) {
@@ -19,6 +18,12 @@ export default function Feed() {
         });
     } else {
       //TODO: fetch posts and display blurred
+      fetch('/api/posts/')
+        .then((response) => response.json())
+        .then((result) => {
+          console.log(result);
+          setCircles(result);
+        });
     }
   }, []);
 
@@ -39,9 +44,10 @@ export default function Feed() {
             </Button>
           </section>
         ) : (
-          <div className="flex flex-col bg-(--purple-dark) text-(--orange-main) px-8 py-10">
+          <div className="flex flex-col bg-(--purple-dark) text-(--orange-main) px-4 py-10">
             {circles.map((p) => {
               const mediaProps = {};
+              let blurred = false
               if (p.post_content) {
                 if (p.post_content.includes("image")) {
                   mediaProps.postimg = p.post_content;
@@ -49,6 +55,8 @@ export default function Feed() {
                   mediaProps.video = p.post_content;
                 }
               }
+
+              if(!userId) blurred = true
 
               return (
                 <Post
@@ -58,6 +66,7 @@ export default function Feed() {
                   tier={p.post_tier}
                   imgsrc={p.circle_avatar}
                   {...mediaProps}
+                  blur={blurred}
                 />
               );
             })}

@@ -12,11 +12,12 @@ import AuthModal from "../components/AuthModal";
 export default function CirclePage() {
   //   const { circleId, _circleSlug } = useParams();
   const circleId = 5;
-  const [circleName, setCircleName] = useState("Candide Thovex");
+  const [circleName, setCircleName] = useState("");
   const [circleAvatar, setCircleAvatar] = useState(null);
   const [circleBio, setCircleBio] = useState("");
   const [circleMembers, setCircleMembers] = useState("");
-  const [circlePosts, setCirclePosts] = useState([]);
+  const [circlePosts, setCirclePosts] = useState([]); 
+  const [userCircleId, setUserCircleId] = useState(null);
   const [isMember, setIsMember] = useState(false);
   const [userTier, setUserTier] = useState(null);
   const { userId } = useUser();

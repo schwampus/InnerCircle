@@ -39,7 +39,6 @@
 	min-height: 60svh;
 	background-color: var(--orange-white);
 	box-sizing: border-box;
-	padding-inline: 0.2em;
 	overflow-x: hidden;
 }
 
