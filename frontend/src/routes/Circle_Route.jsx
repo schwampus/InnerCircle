@@ -114,7 +114,7 @@ export default function CirclePage() {
           </div>
         )}
       </section>
-      <section className="wrapper py-6">
+      <section className="wrapper-light py-6">
         <h2 className="font-semibold text-2xl text-left text-(--purple-darker) py-4 px-4">
           What's {circleName} up to?
         </h2>

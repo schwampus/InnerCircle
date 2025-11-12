@@ -6,6 +6,7 @@ import { useUser } from "../hooks/useUser.js";
 
 export default function Feed() {
   const [circles, setCircles] = useState([]);
+  const [isMember, setIsMember] = useState(false);
   const { userId } = useUser();
 
   useEffect(() => {
@@ -13,14 +14,21 @@ export default function Feed() {
       fetch(`/api/user-circles/feed/${userId}`)
         .then((response) => response.json())
         .then((result) => {
-          console.log(result);
-          setCircles(result);
+          if (result.length > 0) {
+            setCircles(result);
+            setIsMember(true);
+          } else {
+            fetch("/api/posts/")
+              .then((response) => response.json())
+              .then((result) => {
+                setCircles(result);
+              });
+          }
         });
     } else {
       fetch("/api/posts/")
         .then((response) => response.json())
         .then((result) => {
-          console.log(result);
           setCircles(result);
         });
     }
@@ -29,21 +37,23 @@ export default function Feed() {
   return (
     <>
       <div className="wrapper min-h-svh">
-        {!userId && (
+        {(!userId || !isMember) && (
           <section className="flex flex-col items-center justify-center gap-6 w-[20rem] h-[20rem] rounded-full bg-(--purple-dark) px-4 my-10 mx-auto">
             <h2 className="font-semi-bold text-2xl text-center text-(--orange-main)">
               You aren't in a circle yet. Enter now?
             </h2>
-            <Button variant="solid" color="secondary">
-              Explore the circles
-            </Button>
+            <Link to="/categories">
+              <Button variant="solid" color="secondary">
+                Explore the circles
+              </Button>
+            </Link>
           </section>
         )}
         <h1 className="text-3xl text-center font-black font-kanit py-8">
           WHO'S UP TO WHAT?
         </h1>
         <div className="flex flex-col items-center bg-(--purple-dark) text-(--orange-main) px-4 py-10">
-          {circles.map((p) => {
+          {circles.slice(0, 10).map((p) => {
             const mediaProps = {};
             let blurred = false;
             if (p.post_content) {
@@ -54,7 +64,7 @@ export default function Feed() {
               }
             }
 
-            if (!userId) blurred = true;
+            if (!isMember || !userId) blurred = true;
 
             return (
               <Post

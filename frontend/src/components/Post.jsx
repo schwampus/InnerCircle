@@ -45,7 +45,7 @@ export default function Post(props) {
         )}
       </div>
       <h3
-        className={`text-semibold text-xl pt-4 pb-2 ${textWrap} ${lockedPost}`}
+        className={`text-(--orange-main) text-semibold text-xl pt-4 pb-2 ${textWrap} ${lockedPost}`}
       >
         {props.title}
       </h3>
