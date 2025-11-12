@@ -1,34 +1,36 @@
-import express from 'express';
-import * as db from '../db/index.js';
+import express from "express";
+import * as db from "../db/index.js";
 
 const router = express.Router();
 
-router.get('/:users_id', async (req, res, next) => {
-  const query = `
+router.get("/:users_id", async (req, res, next) => {
+	const query = `
   SELECT 
   uc.uc_id, 
   uc.uc_circle_tier, 
   c.circle_name, 
-  c.circle_avatar 
+  c.circle_avatar,
+  c.circle_id,
+  c.circle_slug
   FROM userCircle uc 
   LEFT JOIN circle c 
   ON uc.uc_circle_id = c.circle_id 
   WHERE uc.uc_user_id = $1
-  `
-  try {
-    const result = await db.query(query, [req.params.users_id])
-    res.send(result.rows)
-  } catch (err) {
-    console.log('Error fetching user circles', err)
-    res.status(500).json({
-      error: 'Failed to fetch user circles',
-      message: err.message
-    })
-  }
-})
+  `;
+	try {
+		const result = await db.query(query, [req.params.users_id]);
+		res.send(result.rows);
+	} catch (err) {
+		console.log("Error fetching user circles", err);
+		res.status(500).json({
+			error: "Failed to fetch user circles",
+			message: err.message,
+		});
+	}
+});
 
-router.get('/feed/:users_id', async (req, res, next) => {
-  const query = `
+router.get("/feed/:users_id", async (req, res, next) => {
+	const query = `
     SELECT
       p.post_id,
       p.post_title,
@@ -55,56 +57,60 @@ router.get('/feed/:users_id', async (req, res, next) => {
     ORDER BY p.post_date DESC;
   `;
 
-  try {
-    const result = await db.query(query, [req.params.users_id])
-    res.send(result.rows)
-  } catch (err) {
-    console.log('Error fetching feed posts', err)
-    res.status(500).json({
-      error: 'Failed to fetch feed posts',
-      message: err.message
-    })
-  }
-})
+	try {
+		const result = await db.query(query, [req.params.users_id]);
+		res.send(result.rows);
+	} catch (err) {
+		console.log("Error fetching feed posts", err);
+		res.status(500).json({
+			error: "Failed to fetch feed posts",
+			message: err.message,
+		});
+	}
+});
 
-router.post('/', async (req, res) => {
-  const { userId, circleId, circleTier } = req.body;
+router.post("/", async (req, res) => {
+	const { userId, circleId, circleTier } = req.body;
 
-  if (!circleTier) {
-    return res.status(400).json({ error: 'Please select the tier.' });
-  }
+	if (!circleTier) {
+		return res.status(400).json({ error: "Please select the tier." });
+	}
 
-  if (!userId) {
-    return res.status(400).json({ error: 'You should be logged in to step inside the circle' })
-  }
+	if (!userId) {
+		return res
+			.status(400)
+			.json({ error: "You should be logged in to step inside the circle" });
+	}
 
-  if (!circleId) {
-    return res.status(400).json({ error: 'Select the circle to join' })
-  }
+	if (!circleId) {
+		return res.status(400).json({ error: "Select the circle to join" });
+	}
 
-  try {
-    const result = await db.query(
-      'INSERT INTO userCircle (uc_user_id, uc_circle_id, uc_circle_tier) VALUES($1, $2, $3) RETURNING uc_id',
-      [userId, circleId, circleTier]
-    );
+	try {
+		const result = await db.query(
+			"INSERT INTO userCircle (uc_user_id, uc_circle_id, uc_circle_tier) VALUES($1, $2, $3) RETURNING uc_id",
+			[userId, circleId, circleTier]
+		);
 
-    res.status(201).json({
-      message: 'new userCircle created successfully',
-      userCircle: result.rows[0]
-    })
-  } catch (err) {
-    console.error('Error creating userCircle: ', err);
-    res.status(500).json({ error: 'Failed to create a userCircle' });
-  }
-})
+		res.status(201).json({
+			message: "new userCircle created successfully",
+			userCircle: result.rows[0],
+		});
+	} catch (err) {
+		console.error("Error creating userCircle: ", err);
+		res.status(500).json({ error: "Failed to create a userCircle" });
+	}
+});
 
-router.delete('/:uc_id', async (req, res) => {
-  try {
-    const result = await db.query('DELETE FROM userCircle WHERE uc_id = $1', [req.params.uc_id])
-    res.status(200).json({ message: 'UserCircle deleted!' });
-  } catch (err) {
-    console.error('Error deleting the userCircle: ', err)
-  }
-})
+router.delete("/:uc_id", async (req, res) => {
+	try {
+		const result = await db.query("DELETE FROM userCircle WHERE uc_id = $1", [
+			req.params.uc_id,
+		]);
+		res.status(200).json({ message: "UserCircle deleted!" });
+	} catch (err) {
+		console.error("Error deleting the userCircle: ", err);
+	}
+});
 
 export default router;

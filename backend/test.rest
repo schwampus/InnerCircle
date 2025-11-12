@@ -37,7 +37,7 @@ GET http://localhost:3000/api/circles/25/fans
 GET http://localhost:3000/api/posts/all/3
 
 ### list of user circles 
-GET http://localhost:3000/api/user-circles/5358b4b4-da7e-41e6-b6c1-d6c50bb3dc04
+GET http://localhost:3000/api/user-circles/9cd9860b-8e72-4c36-abd9-a8ab8a9b7e0e
 
 ### feed for the user
 GET http://localhost:3000/api/user-circles/feed/ab71881f-dc4f-4481-a689-55e506679a5e
@@ -45,7 +45,6 @@ GET http://localhost:3000/api/user-circles/feed/ab71881f-dc4f-4481-a689-55e50667
 
 
 ### joining a circle
-
 POST http://localhost:3000/api/user-circles/
 Content-Type: application/json
 
