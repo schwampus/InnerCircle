@@ -16,7 +16,7 @@ Content-Type: application/json
     "password": "testpassword123"
 }
 
-###
+### all posts
 GET http://localhost:3000/api/posts
 
 
@@ -27,8 +27,11 @@ GET http://localhost:3000/api/posts/112
 
 GET http://localhost:3000/api/categories/Snow
 
-### athlete profile details
+### specific athlete profile details
 GET http://localhost:3000/api/circles/2
+
+### show all athletes
+GET http://localhost:3000/api/circles/
 
 ### circle fans
 GET http://localhost:3000/api/circles/25/fans
@@ -76,7 +79,7 @@ Content-Type: application/json
 
 }
 
-### 
+### change avatar,
 PATCH http://localhost:3000/users/e92d107d-69d9-4ec1-9d1a-90daa9a5c41a
 Content-Type: application/json
 

@@ -131,10 +131,7 @@ export default function Profile() {
 				>
 					<h2> Welcome Back {userData?.users_name}!</h2>
 					<div className="flex items-end">
-						<img
-							className="h-40 w-40"
-							src="https://avatar.iran.liara.run/public/ 45"
-						/>
+						<img className="h-40 w-40" src="/avatar1.webp" />
 						{/* removed change avatar functionality for now		<svg
 							className="ml-[-22px]"
 							xmlns="http://www.w3.org/2000/svg"
