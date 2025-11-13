@@ -4,7 +4,7 @@ import { Button } from "@mui/joy";
 export default function Faq() {
 	return (
 		<>
-			<div idgit="wrapper">
+			<div class="wrapper">
 				<div className="bg-(--orange-white) flex flex-col text-6xl font-black justify-center items-center text-center">
 					<h1 className="font-kanit font-bold text-(--orange-main) my-8">
 						{" "}
