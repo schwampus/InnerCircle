@@ -4,14 +4,11 @@ services:
       depends_on:
         database:
           condition: service_healthy
-      environment:
-        - PGURI=postgres://postgres:secret@database/innercircle
+      env_file: "./backend/.env"
       ports:
         - "3000:3000"
   database:
-      environment:
-        - POSTGRES_PASSWORD=secret
-        - POSTGRES_DB=innercircle
+      env_file: "./backend/.env"
       healthcheck:
         interval: 2s
         retries: 30
@@ -24,7 +21,7 @@ services:
       build: 
         context: frontend
         args:
-          ENV: dev  # dev for localhost, prod for server
+          ENV: prod  # dev for localhost, prod for server
       ports:
         - "80:80"
       depends_on:
