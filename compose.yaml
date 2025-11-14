@@ -27,4 +27,4 @@ services:
       depends_on:
         - backend
       volumes:
-        - ./uploads:/usr/share/nginx/html/images
+        - ./uploads:/usr/share/nginx/html/uploads
