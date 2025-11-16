@@ -32,7 +32,7 @@ const Login = (props) => {
         login(result.user.users_id);
 
         props.toggleClose();
-        if (props.type === "join") props.toggleJoin();
+        if (props.modalType === "join") props.toggleJoin();
         else navigate("/feed");
       }
 
